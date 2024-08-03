@@ -12,13 +12,9 @@ export class VerPacienteService {
 
   constructor() { }
 
-  async encontrarClienteById(clienteId: number, userId: number){
+  async encontrarClienteByUserId(clienteId: number){
     try {
-      const response = await axios.get(`${this.url}/${clienteId}`, {
-        params: {
-          userId: userId,
-        }
-      })
+      const response = await axios.get(`${this.url}/${clienteId}`)
       return response.data;
     } catch (error) {
       console.error('Error al obtener cliente: ', error)

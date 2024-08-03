@@ -58,14 +58,14 @@ export class VerComponent {
   recolectarDatos() {
     this.obtenerDatosUsuario();
     this.obtenerDatosCliente();
-    this.obtenerClientePorId(this.clienteId, this.userId)
+    this.obtenerClientePorUserId(this.clienteId)
     this.obtenerResultados(this.clienteId)
   }
 
-  async obtenerClientePorId(clienteId: number, userId: number) {
+  async obtenerClientePorUserId(clienteId: number) {
     try {
       this.isLoading = true;
-      const response = await this.peticion.encontrarClienteById(clienteId, userId);
+      const response = await this.peticion.encontrarClienteByUserId(clienteId);
       console.log('Response:', response);
       this.datosDeCliente = response; // Asignamos la respuesta al objeto datosDeCliente
       this.isLoading = false;
