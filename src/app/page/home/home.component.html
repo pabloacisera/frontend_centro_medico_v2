@@ -1,0 +1,74 @@
+<div class="flex flex-col items-center min-h-screen bg-teal-950 text-white">
+    <!-- Banner con el título -->
+    <header class="w-full bg-teal-800 p-6 text-center">
+        <h1 class="text-4xl font-bold">MediLink</h1>
+    </header>
+
+    <!-- Sección de islas -->
+    <div class="mt-10 w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 px-4">
+        <!-- Acceso de Profesionales -->
+        <div class="card bg-teal-100 text-teal-900 p-6 rounded-lg shadow-lg flex flex-col justify-between">
+            <div>
+                <h2 class="text-2xl font-semibold mb-4">Acceso de Profesionales</h2>
+                <p class="mb-6">Permite a los profesionales médicos acceder a un sistema de gestión de datos de pacientes, facilitando el registro y seguimiento de sus condiciones médicas, así como la gestión de resultados.</p>
+            </div>
+            <button (click)="enrutarProfesional()" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                Ingresar
+            </button>
+        </div>
+
+        <!-- Acceso de Pacientes -->
+        <div class="card bg-teal-100 text-teal-900 p-6 rounded-lg shadow-lg flex flex-col justify-between">
+            <div>
+                <h2 class="text-2xl font-semibold mb-4">Acceso de Pacientes</h2>
+                <p class="mb-6">Los pacientes pueden acceder a sus resultados médicos, ver información institucional y comunicarse en tiempo real con sus profesionales médicos, obteniendo así un seguimiento personalizado.</p>
+            </div>
+            <button (click)="enrutarPacientes()" class="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                Ingresar
+            </button>
+        </div>
+
+        <!-- Acceso de Administrativos -->
+        <div class="card bg-teal-100 text-teal-900 p-6 rounded-lg shadow-lg flex flex-col justify-between">
+            <div>
+                <h2 class="text-2xl font-semibold mb-4">Acceso de Administrativos</h2>
+                <p class="mb-6">El personal administrativo puede asistir a los médicos en la gestión de fichas de pacientes y asignación de turnos, asegurando un flujo de trabajo eficiente y organizado.</p>
+            </div>
+            <button (click)="enrutarAdmin()" class="w-full bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                Ingresar
+            </button>
+        </div>
+    </div>
+
+    <!-- Sección de ventajas -->
+    <section class="mt-12 w-full max-w-5xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-semibold mb-8">Ventajas de Utilizar MediLink</h2>
+        <ul class="list-disc list-inside space-y-4 text-lg">
+            <li>Comunicación en tiempo real entre profesionales y pacientes.</li>
+            <li>Acceso digital a los resultados de estudios y consultas.</li>
+            <li>Gestión eficiente de turnos y fichas de pacientes.</li>
+            <li>Acceso seguro y privado a datos médicos e institucionales.</li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-16 w-full bg-teal-800 p-4 text-center">
+        <div class="text-sm space-y-2">
+            <p>&copy; 2024 Desarrollado por Random_Dev</p>
+            <div class="flex justify-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <!-- Usar FontAwesome o similar para los íconos -->
+                    <i class="fab fa-whatsapp"></i>
+                    <span>+54 3482 271352</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-envelope"></i>
+                    <span>pabloacisera2021&#64;gmail.com</span>
+                </div>
+            </div>
+        </div>
+        <p class="mt-4 text-xs">MediLink es un sistema integral para la gestión de datos médicos, garantizando seguridad y privacidad de la información.</p>
+    </footer>
+</div>
+
+

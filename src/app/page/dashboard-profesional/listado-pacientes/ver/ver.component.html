@@ -1,0 +1,132 @@
+<!-- Enlace para volver -->
+<div class="max-w-4xl ml-3 mb-4">
+    <div class="flex items-center space-x-2 mb-4">
+        <a routerLink="/listado-pacientes" class="cursor-pointer text-lg font-semibold text-white">
+            <i class="pi pi-arrow-left mr-2"></i></a>
+    </div>
+</div>
+
+<!-- Spinner de carga -->
+<div *ngIf="isLoading" class="flex justify-center items-center min-h-screen">
+    <div class="loader">
+        <p-progressSpinner ariaLabel="loading" class="w-16 h-16"></p-progressSpinner>
+        Cargando...
+    </div>
+</div>
+
+<!-- Contenido cuando no está cargando -->
+<div *ngIf="!isLoading" class="max-w-4xl mx-auto">
+    <div class="max-w-full w-full bg-white shadow-lg rounded-lg overflow-hidden mt-6">
+        <!-- Encabezado de paciente -->
+        <div class="p-6 bg-blue-500 text-black">
+            <div class="text-lg font-semibold">
+                <i class="pi pi-id-card mr-2"></i>Protocolo: {{ datosDeCliente.protocolo }}
+            </div>
+            <div class="text-xl font-bold">{{ datosDeCliente.nombre }}</div>
+            <div class="text-sm mt-2">
+                <i class="pi pi-id-card mr-2"></i>DNI: {{ datosDeCliente.dni }}
+            </div>
+        </div>
+        <div class="p-6 bg-white">
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-calendar mr-2"></i>Fecha de Nacimiento:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.nacimiento | dateFormat }}</div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-clock mr-2"></i>Edad:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.edad }}</div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-phone mr-2"></i>Teléfono:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.telefono }}</div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-envelope mr-2"></i>Email:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.email }}</div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-home mr-2"></i>Dirección:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.direccion }}</div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-map mr-2"></i>Localidad:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.localidad }}</div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-shield mr-2"></i>Seguridad Social:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.seguridadSocial }}</div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-gray-700 font-medium">
+                    <i class="pi pi-comment mr-2"></i>Observaciones:
+                </div>
+                <div class="text-gray-900">{{ datosDeCliente.obs }}</div>
+            </div>
+        </div>
+        <div class="p-4 bg-gray-100 text-gray-600 text-sm">
+            <i class="pi pi-calendar mr-2"></i>Creado el: {{ datosDeCliente.createdAt | date:'dd/MM/yyyy' }}
+        </div>
+    </div>
+
+    <div class="container mx-auto mt-8 max-w-full">
+        <h2 class="text-2xl font-bold mb-4">
+            <i class="pi pi-list mr-2"></i>Resultados
+        </h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-blue-300 border border-gray-200 text-amber-800">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b border-gray-200 text-left">
+                            <i class="pi pi-tag mr-2"></i>Código
+                        </th>
+                        <th class="py-2 px-4 border-b border-gray-200 text-left">
+                            <i class="pi pi-info-circle mr-2"></i>Determinación
+                        </th>
+                        <th class="py-2 px-4 border-b border-gray-200 text-left">
+                            <i class="pi pi-check-circle mr-2"></i>Resultado
+                        </th>
+                        <th class="py-2 px-4 border-b border-gray-200 text-left">
+                            <i class="pi pi-ruler mr-2"></i>Unidad Base
+                        </th>
+                        <th class="py-2 px-4 border-b border-gray-200 text-left">
+                            <i class="pi pi-dollar mr-2"></i>Total U.B
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let resultado of resultados">
+                        <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.codigo }}</td>
+                        <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.determinacion }}</td>
+                        <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.resultado }}</td>
+                        <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.unidadBase }}</td>
+                        <td class="py-2 px-4 border-b border-gray-200 text-black">$ {{ resultado.valorTotal }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="mt-4 text-xl font-semibold text-white">
+            <i class="pi pi-dollar mr-2"></i>Valor Total: $ {{ valorSumar }}
+        </p>
+    </div>
+
+    <div class="card bg-white p-6 rounded-lg shadow-lg flex items-center justify-center mt-6 max-w-full w-full">
+        <button (click)="downloadPdf()"
+            class="btn bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <i class="pi pi-file-pdf mr-2"></i>Descargar PDF
+        </button>
+    </div>
+</div>

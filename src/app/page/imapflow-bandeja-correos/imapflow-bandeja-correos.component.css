@@ -1,0 +1,34 @@
+.email-list {
+    margin: 20px;
+  }
+  
+  .email-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .email-body {
+    white-space: pre-wrap;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+  }
+
+/* Asegúrate de que el contenedor ocupa todo el viewport */
+.fullscreen-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  height: 100vh;           /* Altura completa del viewport */
+  width: 100vw;            /* Ancho completo del viewport */
+  position: fixed;         /* Fijo en el viewport */
+  top: 0;                  /* Alineado al borde superior */
+  left: 0;                 /* Alineado al borde izquierdo */
+  background: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente para mejor visibilidad */
+  z-index: 1000;           /* Asegúrate de que esté encima de otros elementos */
+}
+
+

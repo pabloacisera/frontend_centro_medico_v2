@@ -1,0 +1,73 @@
+<div class="flex items-center space-x-2 mb-4 ml-3">
+  <a routerLink="/dashboard-admin" class="flex items-center text-lg font-semibold text-white cursor-pointer">
+    <i class="pi pi-arrow-left ml-3 mt-1"></i>
+  </a>
+</div>
+
+<div class="w-full max-w-lg mx-auto">
+  <div>
+    <input type="text" placeholder="Buscar paciente- [SE DISTINGUE MAYUSCULA Y MINUSCULA]" #textSearch (keyup)="searchTerm(textSearch.value)"
+      class="form-control mb-3 py-1 px-1 rounded-lg text-black w-full mt-3">
+  </div>
+</div>
+
+<div class="overflow-hidden rounded-lg">
+  <table class="mx-auto bg-slate-400 mt-5 w-full max-w-4xl rounded-t-lg">
+    <thead class="bg-gray-600 text-gray-950 font-bold">
+      <tr>
+        <th class="px-4 py-3 rounded-tl-lg">Nº de protocolo</th>
+        <th class="px-4 py-3">Nombre y apellido</th>
+        <th class="px-4 py-3">Correo Electrónico</th>
+        <th class="px-4 py-3 rounded-tr-lg">Acción</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let item of clientes | uploadFile:page:text">
+      <tr class="border-b border-gray-300 text-gray-900 font-medium">
+        <td class="px-4 py-3 text-lime-800 font-bold">{{item.protocolo}}</td>
+        <td class="px-4 py-3">{{item.nombre}}</td>
+        <td class="px-4 py-3">{{item.email}}</td>
+        <td class="px-4 py-3">
+          <button (click)="capturarId(item.id)" class="bg-blue-500 text-white px-4 py-2 rounded">
+            <i class="pi pi-check"></i> Seleccionar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="w-full max-w-lg mx-auto flex justify-between items-center mt-5">
+    <button (click)="prevPage()" class="bg-blue-500 text-white px-4 py-2 rounded mr-auto">
+      <i class="pi pi-arrow-left"></i> Anterior
+    </button>
+    <button (click)="nextPage()" class="bg-blue-500 text-white px-4 py-2 rounded ml-auto">
+      Siguiente <i class="pi pi-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<div class="w-full max-w-lg mx-auto flex justify-center items-center mt-5 border border-white border-[1px] p-4">
+  <p class=" text-white font-bold text-center">
+    Se recomienda la utilización de archivos .txt, .doc, .docx o pdf. También pueden cargarse imágenes .jpg
+  </p>
+</div>
+
+
+<div class="w-full max-w-lg mx-auto bg-amber-200 rounded-lg mt-5 px-5 py-5">
+  <span *ngIf="success" class="text-orange-500">
+    <i class="pi pi-check-circle"></i> El archivo se ha guardado en base de datos
+  </span>
+  <span *ngIf="error" class="text-red-500">
+    <i class="pi pi-exclamation-circle"></i> Error al guardar el archivo
+  </span>
+  <label for="file" class="block text-sm font-medium text-gray-700 px-3 py-1">
+    Adjuntar archivo a <strong> {{nombre}} </strong>
+  </label>
+  <div class="relative">
+    <input type="file" id="file" (change)="onFileChange($event)"
+      class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    &nbsp;
+    <button (click)="cargarDoc()" class="mx-auto bg-slate-900 text-white px-4 py-2 rounded ml-auto flex items-center">
+      <i class="pi pi-upload mr-2"></i> Cargar Documento
+    </button>
+  </div>
+</div>
+

@@ -1,0 +1,36 @@
+<div class="flex justify-center items-center min-h-screen">
+  <div class="bg-white shadow-lg rounded-lg p-6 max-w-lg w-full">
+    <h2 class="text-2xl font-bold mb-4 text-center text-black">Panel de Control</h2>
+    <div class="space-y-4">
+      <a routerLink="/listado-pacientes" class="cursor-pointer block text-center py-3 px-4 bg-teal-500 text-white rounded-lg shadow hover:bg-teal-600 transition">
+        <i class="pi pi-list mr-2"></i>Listado de Pacientes
+      </a>
+      <a routerLink="/nueva-ficha" class="cursor-pointer block text-center py-3 px-4 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">
+        <i class="pi pi-plus mr-2"></i>Crear Nueva Ficha
+      </a>
+      <a routerLink="/cargar-resultados" class="cursor-pointer block text-center py-3 px-4 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition">
+        <i class="pi pi-upload mr-2"></i>Cargar Resultados
+      </a>
+      <a routerLink="/ver-turnos" class="cursor-pointer block text-center py-3 px-4 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-800 transition">
+        <i class="pi pi-calendar mr-2"></i>Turnos
+      </a>
+      <a routerLink="/enviar-correo" class="cursor-pointer block text-center py-3 px-4 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition">
+        <i class="pi pi-envelope mr-2"></i>Enviar Correo
+      </a>
+      <a routerLink="/buscar-nomenclatura" class="cursor-pointer block text-center py-3 px-4 bg-yellow-500 text-white rounded-lg shadow hover:bg-yellow-600 transition">
+        <i class="pi pi-search mr-2"></i>Buscar Nomenclatura
+      </a>
+      <a routerLink="/chat" class="cursor-pointer block text-center py-3 px-4 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600 transition">
+        <i class="pi pi-comments mr-2"></i>Chat en Vivo
+      </a>
+      <a routerLink="/perfil" class="cursor-pointer block text-center py-3 px-4 bg-purple-500 text-white rounded-lg shadow hover:bg-purple-600 transition">
+        <i class="pi pi-user mr-2"></i>Perfil de Usuario
+      </a>
+      <a (click)="salir()" class="cursor-pointer block text-center py-3 px-4 bg-black text-white rounded-lg shadow hover:bg-slate-700 transition">
+        <i class="pi pi-power-off mr-2"></i>Salir
+      </a>
+    </div>
+  </div>
+</div>
+<app-chat></app-chat>
+

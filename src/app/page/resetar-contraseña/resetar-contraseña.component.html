@@ -1,0 +1,40 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-500 p-4">
+  <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-lg font-bold mb-4 text-slate-800">
+      Si deseas cambiar el password, completa los siguientes campos
+    </h2>
+
+    <form (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
+        <div class="relative">
+          <i class="pi pi-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <select id="role" [(ngModel)]="data.rol" name="role"
+            class="pl-10 text-black block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            required>
+            <option value="profesional">Profesional</option>
+            <option value="administrativo">Administrativo</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+        <div class="relative">
+          <i class="pi pi-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input id="email" type="email" [(ngModel)]="data.email" name="email"
+            class="pl-10 text-black block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            required />
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit"
+          class="w-full bg-indigo-600 text-white py-2 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+          <i class="pi pi-send mr-2"></i> Enviar
+        </button>
+      </div>
+    </form>
+    <p class="text-red-500 mt-4" *ngIf="message">{{message}}</p>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="flex items-center space-x-2 mb-4 ml-3">
+  <span class="cursor-pointer text-lg font-semibold text-white flex items-center" routerLink="/dash-prof">
+    <i class="pi pi-arrow-left ml-3 mt-1"></i>
+  </span>
+</div>
+
+<div class="container mx-auto p-6">
+  <div class="bg-white shadow-lg rounded-lg p-6 max-w-lg mx-auto">
+    <h4 class="text-2xl font-bold mb-4 text-indigo-700 flex items-center">
+      <i class="pi pi-plus mr-2"></i> Nueva ficha
+    </h4>
+    <form [formGroup]="clienteForm" (ngSubmit)="submitForm()" class="space-y-4">
+      <div>
+        <label for="protocolo" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-number mr-2"></i> Protocolo nº:
+        </label>
+        <input type="number" placeholder="Ingresar protocolo" formControlName="protocolo" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="nombre" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-user mr-2"></i> Nombre:
+        </label>
+        <input type="text" id="nombre" formControlName="nombre" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="dni" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-id-card mr-2"></i> DNI:
+        </label>
+        <input type="text" id="dni" formControlName="dni" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="nacimiento" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-calendar mr-2"></i> Fecha de Nacimiento:
+        </label>
+        <input type="date" id="nacimiento" formControlName="nacimiento" (change)="calcularEdad()" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="edad" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-calendar-minus mr-2"></i> Edad:
+        </label>
+        <input type="number" id="edad" formControlName="edad" readonly 
+               class="text-black w-full border border-gray-300 rounded-md p-2 bg-gray-100 cursor-not-allowed" />
+      </div>
+
+      <div>
+        <label for="direccion" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-home mr-2"></i> Dirección:
+        </label>
+        <input type="text" id="direccion" formControlName="direccion" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="localidad" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-map-marker mr-2"></i> Localidad:
+        </label>
+        <input type="text" id="localidad" formControlName="localidad" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="telefono" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-phone mr-2"></i> Teléfono:
+        </label>
+        <input type="tel" id="telefono" formControlName="telefono" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-envelope mr-2"></i> Email:
+        </label>
+        <input type="email" id="email" formControlName="email" 
+               class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="seguridadSocial" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-shield mr-2"></i> Seguridad Social:
+        </label>
+        <select id="seguridadSocial" formControlName="seguridadSocial" 
+                class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="IAPOS">IAPOS</option>
+          <option value="PAMI">PAMI</option>
+          <option value="OSECAC">OSECAC</option>
+          <option value="OSPRERA">OSPRERA</option>
+          <option value="OTRA">OTRA</option>
+        </select>
+        <p class="text-gray-600 text-sm mt-1">Si no encuentra la obra social requerida, coloque OTRA y en observaciones mencione la que corresponda.</p>
+      </div>
+
+      <div>
+        <label for="obs" class="block text-gray-700 font-medium mb-1 flex items-center">
+          <i class="pi pi-comment mr-2"></i> Observaciones:
+        </label>
+        <textarea id="obs" formControlName="obs" rows="4" 
+                  class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+      </div>
+
+      <button type="submit" [disabled]="clienteForm.invalid" 
+              class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 flex items-center justify-center">
+        <i class="pi pi-check mr-2"></i> Crear Cliente
+      </button>
+    </form>
+  </div>
+</div>
+
+  

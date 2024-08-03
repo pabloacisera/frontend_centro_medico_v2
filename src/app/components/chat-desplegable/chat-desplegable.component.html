@@ -1,0 +1,38 @@
+<div class="fixed bottom-0 right-0 mb-4 mr-4">
+  <!-- Botón para abrir/cerrar el chat -->
+  <button (click)="toggleChat()" class="bg-blue-500 text-white p-2 rounded-full focus:outline-none">
+    <i class="pi pi-comments"></i> <!-- Icono de PrimeNG -->
+  </button>
+
+  <!-- Contenedor del chat -->
+  <div *ngIf="isChatOpen" class="bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden w-80 h-80 flex flex-col">
+    <!-- Cabecera del chat -->
+    <div class="bg-blue-500 text-white p-2 flex items-center justify-between">
+      <span class="font-semibold">Chat</span>
+      <button (click)="closeChat()" class="text-black">
+        <i class="pi pi-times"></i> <!-- Icono de PrimeNG para cerrar -->
+      </button>
+    </div>
+
+    <!-- Contenedor de los mensajes -->
+    <div #chatContainer class="flex-1 overflow-y-auto p-2 space-y-2">
+      <div *ngFor="let mensaje of mensajes" [ngClass]="{'text-right': mensaje.nombre === nombre, 'text-left': mensaje.nombre !== nombre}">
+        <div class="p-2 rounded-lg max-w-xs inline-block" [ngClass]="{'bg-green-200': mensaje.nombre === nombre, 'bg-blue-200': mensaje.nombre !== nombre}">
+          <strong class="text-blue-500">{{ mensaje.nombre }}:</strong>
+          <p class=" text-slate-800">{{ mensaje.mensaje }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Entrada de mensajes -->
+    <div class="bg-gray-100 p-2 flex items-center">
+      <input [(ngModel)]="mensajeInput" (keyup.enter)="enviarMensaje(mensajeInput)" placeholder="Escribe un mensaje..." class=" text-black flex-1 border border-gray-300 p-1 rounded-lg" />
+      <button (click)="enviarMensaje(mensajeInput)" class="ml-2 bg-blue-500 text-white p-2 rounded-lg">Enviar</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+

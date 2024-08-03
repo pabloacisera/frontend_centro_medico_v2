@@ -1,0 +1,25 @@
+<!-- Agregar controles de filtrado -->
+<div>
+  <label for="filterMonth">Filtrar por mes:</label>
+  <input type="month" id="filterMonth" (change)="filterByMonth($event)" />
+
+  <label for="filterWeek">Filtrar por semana:</label>
+  <input type="week" id="filterWeek" (change)="filterByWeek($event)" />
+
+  <label for="filterDay">Filtrar por día:</label>
+  <input type="date" id="filterDay" (change)="filterByDay($event)" />
+</div>
+
+<!-- Tabla de datos -->
+<table>
+  <thead>
+    <tr>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of filteredTurnos">
+      <td>{{ item.fecha }}</td>
+    </tr>
+  </tbody>
+</table>

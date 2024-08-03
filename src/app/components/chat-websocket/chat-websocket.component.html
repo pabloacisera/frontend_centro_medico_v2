@@ -1,0 +1,66 @@
+<div class="flex items-center space-x-2 mb-4 ml-3">
+  <span class="cursor-pointer text-lg font-semibold text-white" routerLink="/dash-prof">
+    <i class="pi pi-arrow-left mr-2" aria-hidden="true"></i>
+  </span>
+</div>
+
+<div class="container">
+  <div class="user-info">
+    <label for="nombre">Usuario:</label>
+    <h5 class="font-bold">{{ nombre }}</h5>
+  </div>
+  <div class="status-action">
+    <span *ngIf="status" class="status-icon connected" title="Conectado"></span>
+    <span *ngIf="!status" class="status-icon disconnected" title="Desconectado"></span>
+    <button (click)="toggleConnection()">
+      {{ status ? 'Desconectar' : 'Conectar' }}
+    </button>
+  </div>
+</div>
+
+<div class="flex h-screen">
+  <!-- Sidebar: Lista de contactos -->
+  <aside class="w-1/4 bg-gray-800 text-white p-4">
+    <h2 class="text-lg font-bold mb-4">Conectados</h2>
+    <ul>
+      <li *ngFor="let user of connectedUsers" class="p-2 hover:bg-gray-700 cursor-pointer">
+        {{ user.nombre }}
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Chat Window -->
+  <div class="w-3/4 bg-gray-100 flex flex-col">
+    <!-- Chat Header -->
+    <div class="bg-slate-600 text-black p-4 shadow-md">
+      <h2 class="text-xl font-bold">Chat</h2>
+    </div>
+
+    <!-- Chat Messages -->
+    <div #chatContainer class="flex-1 p-4 overflow-y-auto">
+      <div *ngFor="let mensaje of mensajes" class="mb-4" [ngClass]="{'text-right': mensaje.nombre === nombre, 'text-left': mensaje.nombre !== nombre}">
+        <div [ngClass]="{'bg-blue-500': mensaje.nombre === nombre, 'bg-green-500': mensaje.nombre !== nombre}" class="p-2 rounded-md inline-block text-white">
+          <!-- Mostrar el nombre del remitente -->
+          <div class="font-bold">{{ mensaje.nombre }}</div>
+          <!-- Mostrar el contenido del mensaje -->
+          <div>{{ mensaje.mensaje }}</div>
+        </div>
+      </div>
+    </div>
+    <!-- Input para enviar mensajes -->
+    <div class="bg-gray-200 p-4">
+      <input
+        [(ngModel)]="mensajeInput"
+        (keyup.enter)="enviarMensaje(mensajeInput)"
+        class=" text-black font-bold border border-gray-300 p-2 w-full rounded"
+        placeholder="Escribe tu mensaje aquí..."
+      />
+      <button
+        (click)="enviarMensaje(mensajeInput)"
+        class="mt-2 p-2 bg-blue-500 text-white rounded"
+      >
+        Enviar
+      </button>
+    </div> 
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="cursor-pointer flex items-center space-x-2 mb-4 ml-3">
+  <i class="pi pi-arrow-left text-white" routerLink="/dashboard-admin"></i>
+</div>
+
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">Lista de Emails</h1>
+
+  <!-- Spinner de carga de PrimeNG -->
+  <!-- Spinner de carga de PrimeNG -->
+  <!-- Spinner centrado en el viewport -->
+  <div *ngIf="loading" class="fullscreen-container">
+    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+  </div>
+
+
+
+  <!-- Mensaje de "No hay correos nuevos" -->
+  <div *ngIf="!loading && noEmailsMessage" class="mt-6 p-4 border border-gray-200 bg-gray-50 text-center text-gray-700">
+    {{ noEmailsMessage }}
+  </div>
+
+  <!-- Tabla de correos -->
+  <div class="flex justify-between items-center mb-4">
+    <button pButton type="button" icon="pi pi-refresh" label="Actualizar" (click)="refreshTable()" class="p-button-outlined p-button-secondary"></button>
+  </div>
+  <table *ngIf="!loading && !noEmailsMessage" class="min-w-full bg-white border border-gray-200">
+    <thead class="bg-gray-100 border-b">
+      <tr>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Fecha</th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Remitente</th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Asunto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let email of emails" class="border-b hover:bg-gray-50 cursor-pointer" (click)="selectEmail(email)">
+        <td class="px-6 py-4 text-sm text-gray-900">{{ email.headers.date[0] | fechaBandejaEmail }}</td>
+        <td class="px-6 py-4 text-sm text-gray-900">{{ email.headers.from[0] }}</td>
+        <td class="px-6 py-4 text-sm text-gray-900">{{ email.headers.subject[0] }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+
+  <!-- Detalles del correo seleccionado -->
+  <div *ngIf="selectedEmail" class="mt-6 p-4 border border-gray-200 bg-gray-50">
+    <h2 class="text-xl font-semibold mb-2 text-blue-900">{{ selectedEmail.headers.subject[0] }}</h2>
+    <p class="text-black"><strong>De:</strong> {{ selectedEmail.headers.from[0] }}</p>
+    <p class="text-black"><strong>Para:</strong> {{ selectedEmail.headers.to[0] }}</p>
+    <p class="text-black"><strong>Fecha:</strong> {{ selectedEmail.headers.date[0] | fechaBandejaEmail }}</p>
+    <div class="mt-4 bg-slate-800 p-4 border border-gray-300 font-medium">
+      <div [innerHTML]="selectedEmail.body | cleanEmailBody" class="text-black"></div>
+    </div>
+  </div>
+</div>

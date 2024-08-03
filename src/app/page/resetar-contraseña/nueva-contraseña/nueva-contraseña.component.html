@@ -1,0 +1,57 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-500 p-4">
+  <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-lg font-bold mb-4 text-slate-800">
+      Ingresa tu nueva contraseña
+    </h2>
+
+    <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Nueva Contraseña</label>
+        <div class="relative">
+          <i class="pi pi-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="pl-10 text-black block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+        <div class="relative">
+          <i class="pi pi-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            class="pl-10 text-black block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            required
+          />
+          <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <ng-container *ngIf="passwordForm.get('confirmPassword').touched">
+              <ng-container *ngIf="passwordsMatch">
+                <i class="pi pi-check-circle text-green-500"></i>
+              </ng-container>
+              <ng-container *ngIf="!passwordsMatch">
+                <i class="pi pi-times-circle text-red-500"></i>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button
+          type="submit"
+          [disabled]="passwordForm.invalid || !passwordsMatch"
+          class="w-full bg-indigo-600 text-white py-2 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+        >
+          Cambiar Contraseña
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

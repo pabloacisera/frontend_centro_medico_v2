@@ -1,0 +1,96 @@
+<!-- Enlace para volver -->
+<div class="flex items-center space-x-2 mb-4 ml-3">
+  <a routerLink="/dash-prof" class="cursor-pointer text-lg font-semibold text-white">
+    <i class="pi pi-arrow-left mr-2"></i></a>
+</div>
+
+<div class="container mx-auto p-6">
+  <!-- Botón para nuevo paciente -->
+  <button (click)="nuevoPaciente()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">
+    <i class="pi pi-user-plus mr-2"></i>Nuevo paciente
+  </button>
+
+  <h4 class="text-2xl font-bold mb-4 text-center">Listado de Pacientes</h4>
+
+  <!-- Campo de búsqueda -->
+  <div class="mb-4 bg-white shadow-md rounded-lg p-4">
+    <label for="busquedaNombre" class="block text-gray-700 font-medium mb-2">Búsqueda:</label>
+    <input id="busquedaNombre" type="text" [(ngModel)]="filtroDeBusqueda.busquedaNombre"
+      class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+  </div>
+
+  <!-- Spinner de carga -->
+  <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50" *ngIf="Loading">
+    <p-progressSpinner ariaLabel="loading" class="w-16 h-16"></p-progressSpinner>
+  </div>
+
+  <!-- Tabla de datos -->
+  <div *ngIf="!Loading" class="bg-white shadow-md rounded-lg p-4">
+    <p-table
+      [value]="datosDeCliente | filtroNombre: filtroDeBusqueda.busquedaNombre | orderBy: order: reversa | paginate: {itemsPerPage: rows, currentPage: p}"
+      [paginator]="true" [rows]="rows" [first]="first" [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '100%' }"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" (onPage)="pageChange($event)"
+      [rowsPerPageOptions]="[5, 10, 25, 50]">
+      <ng-template pTemplate="header">
+        <tr class="bg-gray-100 text-gray-600">
+          <th class="py-2 px-4 cursor-pointer" (click)="setOrderBy('protocolo')">
+            <i class="pi pi-id-card mr-2"></i>Protocolo
+          </th>
+          <th class="py-2 px-4 cursor-pointer" (click)="setOrderBy('nombre')">
+            <i class="pi pi-user mr-2"></i>Nombre y Apellido
+          </th>
+          <th class="py-2 px-4 cursor-pointer" (click)="setOrderBy('nacimiento')">
+            <i class="pi pi-calendar mr-2"></i>Fecha de Nacimiento
+          </th>
+          <th class="py-2 px-4 cursor-pointer" (click)="setOrderBy('edad')">
+            <i class="pi pi-clock mr-2"></i>Edad
+          </th>
+          <th class="py-2 px-4 cursor-pointer" (click)="setOrderBy('telefono')">
+            <i class="pi pi-phone mr-2"></i>Teléfono
+          </th>
+          <th class="py-2 px-4">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr>
+          <td class="py-2 px-4">{{ data.protocolo }}</td>
+          <td class="py-2 px-4">{{ data.nombre }} {{ data.apellido }}</td>
+          <td class="py-2 px-4">{{ data.nacimiento | dateFormat }}</td>
+          <td class="py-2 px-4">{{ data.edad }}</td>
+          <td class="py-2 px-4">{{ data.telefono }}</td>
+          <td class="py-2 px-4 flex space-x-2">
+            <button [routerLink]="['/ver', data.id]"
+              class="px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+              <i class="pi pi-eye mr-2"></i>Ver
+            </button>
+            <button [routerLink]="['/editar', data.id]"
+              class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+              <i class="pi pi-pencil mr-2"></i>Editar
+            </button>
+            <button (click)="funcionEliminarCliente(data.id)"
+              class="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
+              <i class="pi pi-trash mr-2"></i>Eliminar
+            </button>
+            <button [routerLink]="['/cargar', data.id]"
+              class="px-2 py-1 bg-green-500 text-white rounded-md hover:bg-green-600">
+              <i class="pi pi-upload mr-2"></i>Cargar
+            </button>
+            <button [routerLink]="['/docs', data.id]"
+              class="px-2 py-1 bg-slate-700 text-white rounded-md hover:bg-slate-800">
+              <i class="pi pi-folder mr-2"></i>Archivos
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()"
+          styleClass="p-button-text"></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+        <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"
+          styleClass="p-button-text"></p-button>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

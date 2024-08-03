@@ -1,0 +1,114 @@
+<p routerLink="/dash-prof" class="cursor-pointer text-white font-bold">
+  <i class="pi pi-arrow-left ml-3 mt-1"></i>
+</p>
+
+<div class="flex justify-center">
+  <div class="w-full max-w-3xl flex gap-8 p-4 border border-gray-600 shadow-lg rounded-md bg-amber-950">
+    <!-- Columna de pacientes -->
+    <div class="w-1/2 bg-white shadow-inner rounded-md p-4 border-r border-gray-400 relative">
+      <div class="mb-4">
+        <input type="text" placeholder="buscar pacientes" #clienteSearch (keyup)="onClienteSearch(clienteSearch.value)"
+          class="text-black w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600">
+      </div>
+      <div class="data-list">
+        <div *ngFor="let item of cliente | agendaCliente:page:text_cliente_search"
+          class="data-item text-black border-b border-red-800 py-2 bg-gray-100 hover:bg-gray-200 flex justify-between items-center">
+          <span>{{ item.nombre }} - {{ item.email }}</span>
+          <button (click)="copyToClipboardClient(item.email)" pButton type="button" icon="pi pi-copy"></button>
+        </div>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button (click)="paginaAnterior()" class="pButton text-black" type="button">
+          <i class="pi pi-chevron-left"></i> Anterior
+        </button>
+        <button (click)="paginaSiguiente()" class="pButton text-black" type="button">
+          Siguiente <i class="pi pi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Columna de profesionales -->
+    <div class="w-1/2 bg-white shadow-inner rounded-md p-4 relative">
+      <div class="mb-4">
+        <input type="text" placeholder="buscar profesional" #text (keyup)="onProfesionalSearch(text.value)"
+          class="text-black w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600">
+      </div>
+      <div class="data-list">
+        <div *ngFor="let profesional of usuario | agendaUsuarios:page:text_profesional_search"
+          class="data-item text-black border-b border-red-800 py-2 bg-gray-100 hover:bg-gray-200 flex justify-between items-center">
+          <span>{{ profesional.nombre }} - {{ profesional.email }}</span>
+          <button (click)="copyToClipboardUser(profesional.email)" pButton type="button" icon="pi pi-copy"></button>
+        </div>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button (click)="paginaAnterior()" class="pButton text-black" type="button">
+          <i class="pi pi-chevron-left"></i> Anterior
+        </button>
+        <button (click)="paginaSiguiente()" class="pButton text-black" type="button">
+          Siguiente <i class="pi pi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Mostrar el mensaje de éxito o error -->
+<p *ngIf="message" class="text-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+  role="alert">
+  <i class="pi pi-check-circle mr-2"></i> {{ message }}
+</p>
+
+<form (ngSubmit)="sendMail()" class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-md mt-16"
+  enctype="multipart/form-data">
+  <div class="mb-4">
+    <label for="from" class="block text-sm font-medium text-gray-700">De:</label>
+    <div class="relative">
+      <input type="email" id="from" [(ngModel)]="from" name="from" required
+        class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+      <i class="pi pi-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="to" class="block text-sm font-medium text-gray-700">Para:</label>
+    <div class="relative">
+      <input placeholder="Ingresar mail del destinatario" type="email" id="to" [(ngModel)]="to" name="to" required
+        class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+      <i class="pi pi-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="subject" class="block text-sm font-medium text-gray-700">Asunto:</label>
+    <div class="relative">
+      <input placeholder="Asunto o motivo - [incorporar nombre del profesional]" type="text" id="subject"
+        [(ngModel)]="subject" name="subject" required
+        class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10">
+      <i class="pi pi-tag absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="text" class="block text-sm font-medium text-gray-700">Texto:</label>
+    <div class="relative">
+      <textarea placeholder="Incorporar texto o mensaje" id="text" [(ngModel)]="text" name="text"
+        class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10"></textarea>
+      <i class="pi pi-pencil absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="file" class="block text-sm font-medium text-gray-700">Adjuntar archivo:</label>
+    <div class="relative">
+      <input type="file" id="file" (change)="onFileChange($event)"
+        class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    </div>
+  </div>
+
+  <button type="submit"
+    class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+    <span *ngIf="isLoading" class="pi pi-spin pi-spinner mr-2" role="status" aria-hidden="true"></span>
+    <span *ngIf="!isLoading"><i class="pi pi-send mr-2"></i> Enviar</span>
+  </button>
+</form>

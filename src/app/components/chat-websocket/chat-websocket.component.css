@@ -1,0 +1,63 @@
+.status-icon {
+  display: inline-block;
+  width: 12px; /* Tamaño de la bolita */
+  height: 12px;
+  border-radius: 50%; /* Hace que el elemento sea redondeado */
+  margin-right: 10px; /* Espaciado a la derecha */
+  vertical-align: middle; /* Alinea verticalmente con el texto */
+}
+
+.connected {
+  background-color: green; /* Color verde para conectado */
+}
+
+.disconnected {
+  background-color: red; /* Color rojo para desconectado */
+}
+
+/* chat-websocket.component.css */
+
+/* chat-websocket.component.css */
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.bg-blue-500 {
+  background-color: #3b82f6;
+}
+
+.bg-green-500 {
+  background-color: #10b981;
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+/* Opcional: agregar margen entre mensajes */
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+

@@ -1,0 +1,148 @@
+<div class="flex items-center space-x-2 mb-4 ml-3">
+    <span class="cursor-pointer text-lg font-semibold text-white" routerLink="/dash-prof">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+    </span>
+</div>
+
+<div class="container mx-auto my-6 p-4 bg-white shadow-lg rounded-lg max-w-4xl">
+    <!-- Input de búsqueda -->
+    <div class="flex items-center space-x-2 mb-4">
+        <i class="pi pi-search text-gray-500"></i>
+        <input type="search" [(ngModel)]="searchText" placeholder="Buscar..." (ngModelChange)="onSearchTextChange()"
+            class="text-black flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+    </div>
+
+    <!-- Spinner centrado -->
+    <div *ngIf="isLoading" class="spinner-container">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div *ngIf="!isLoading">
+        <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2 text-left font-semibold text-gray-600">Protocolo</th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-600">Nombre y apellido</th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-600">Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of filteredData | paginate: {itemsPerPage: 5, currentPage: p}"
+                    class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-2 text-black">{{item.protocolo}}</td>
+                    <td class="px-4 py-2 text-black">{{item.nombre}}</td>
+                    <td class="px-4 py-2 text-black">
+                        <button (click)="funcionSeleccionar(item)"
+                            class="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+                            <i class="pi pi-check" aria-hidden="true"></i> Seleccionar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente"
+            class="mt-4"></pagination-controls>
+
+        <!-- Detalles del cliente seleccionado -->
+        <div *ngIf="clienteSeleccionado" class="mt-6 p-4 bg-gray-100 rounded-lg text-black">
+            <h3 class="text-xl font-semibold text-black">Detalles del Cliente Seleccionado</h3>
+            <p class="mt-2 text-black"><strong>Cliente seleccionado:</strong> {{ clienteSeleccionado.nombre }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto my-6 p-4 bg-white shadow-lg rounded-lg max-w-4xl">
+    <h4 class="text-lg font-semibold mb-4 text-green-500">Cargar valor de unidad base</h4>
+
+    <!-- Spinner centrado -->
+    <div *ngIf="isLoading" class="spinner-container">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Formulario para ingresar el valor -->
+    <div *ngIf="!isLoading">
+        <input type="number" #valorInput
+            class="text-black w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
+            [value]="valor_unitario">
+        <button (click)="obtenerValor(valorInput.value)"
+            class="w-32 px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+            <i class="pi pi-save" aria-hidden="true"></i> {{ botonTexto }}
+        </button>
+        <div class="mt-4">
+            <p class="text-red-950"><strong>Valor de U.B cargado:</strong> $ {{ valor_unitario }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto my-6 p-4 bg-white shadow-lg rounded-lg max-w-4xl">
+    <h2 class="text-2xl font-semibold mb-6 text-black">Buscar por Código</h2>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="mb-6">
+        <label for="codigo" class="block text-sm font-semibold mb-2 text-black">Código:</label>
+        <div class="flex items-center space-x-2 mb-4">
+            <i class="pi pi-search text-gray-500"></i>
+            <input type="number" id="codigo" formControlName="codigo"
+                class="flex-1 px-4 p-2 border border-gray-300 rounded text-gray-800">
+        </div>
+        <button type="submit" class="w-auto px-4 py-2 bg-green-600 rounded hover:bg-green-700 text-white">
+            <i class="pi pi-search" aria-hidden="true"></i> Buscar
+        </button>
+    </form>
+    <div>
+        <div *ngIf="showResult && nomenclaturas.length === 0" class="p-4 bg-red-100 text-red-700 rounded mb-4">
+            <p><i class="pi pi-exclamation-triangle mr-2" aria-hidden="true"></i>No se encontraron resultados para el
+                código {{ searchForm.value.codigo }}</p>
+        </div>
+        <div *ngIf="showResult === false && searchForm.valid" class="p-4 bg-gray-100 text-gray-700 rounded mb-4">
+            <p><i class="pi pi-info-circle mr-2" aria-hidden="true"></i>Ingresa un código para realizar la búsqueda</p>
+        </div>
+        <div *ngIf="searchForm.invalid && searchForm.dirty" class="p-4 bg-yellow-100 text-yellow-700 rounded mb-4">
+            <p><i class="pi pi-exclamation-circle mr-2" aria-hidden="true"></i>El código es requerido y debe ser un
+                número válido</p>
+        </div>
+    </div>
+</div>
+
+<!-- Spinner centrado -->
+<div *ngIf="isLoading" class="spinner-container">
+    <div class="spinner"></div>
+</div>
+
+<!-- Spinner centrado -->
+<div *ngIf="isLoading" class="spinner-container">
+    <div class="spinner"></div>
+</div>
+
+<!-- Tabla de resultados -->
+<div *ngIf="!isLoading" class="container mx-auto my-6 p-4 bg-white shadow-lg rounded-lg max-w-4xl">
+    <h4 class="text-lg font-semibold mb-4 text-black">Lista de Resultado</h4>
+    <div *ngIf="showResult && nomenclaturas.length > 0">
+        <table class="w-full bg-white shadow-md rounded-lg overflow-hidden mb-4">
+            <thead class="bg-gray-800">
+                <tr>
+                    <th class="px-4 py-2 text-left font-semibold text-white">Código</th>
+                    <th class="px-4 py-2 text-left font-semibold text-white">Determinación</th>
+                    <th class="px-4 py-2 text-left font-semibold text-white">Resultado</th>
+                    <th class="px-4 py-2 text-left font-semibold text-white">U.B</th>
+                    <th class="px-4 py-2 text-left font-semibold text-white">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let nomenclatura of nomenclaturas" class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-2 text-black">{{ nomenclatura.codigo }}</td>
+                    <td class="px-4 py-2 text-black">{{ nomenclatura.determinacion }}</td>
+                    <td class="px-4 py-2 text-black">
+                        <input type="number" [(ngModel)]="nomenclatura.resultado"
+                            class="text-black w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </td>
+                    <td class="px-4 py-2 text-black">{{ nomenclatura.unidadBase }}</td>
+                    <td class="px-4 py-2 text-black">$ {{ nomenclatura.valorTotal }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button (click)="guardarResultados()"
+            class="w-auto px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">
+            <i class="pi pi-save" aria-hidden="true"></i> Guardar
+        </button>
+    </div>
+</div>

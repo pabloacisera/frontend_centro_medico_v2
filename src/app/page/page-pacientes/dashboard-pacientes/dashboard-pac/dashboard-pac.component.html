@@ -1,0 +1,112 @@
+<div class="mx-auto mt-10 card-container w-[70vw]">
+  <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg rounded-lg overflow-hidden">
+    <div class="p-6 flex items-center">
+      <!-- Información Principal -->
+      <div class="flex-1">
+        <i class="pi pi-user mr-2"></i><span>Nombre y apellido:</span>
+        <div class="text-lg font-bold">{{ datosObtenidoDeLocalStorage?.nombre }}</div>
+        <i class="pi pi-envelope mr-2"></i><span>Email: </span>
+        <div class="text-sm mt-1 font-bold">{{ datosObtenidoDeLocalStorage?.email }}</div>
+        <i class="pi pi-phone mr-2"></i><span>Teléfono:</span>
+        <div class="text-sm mt-1 font-bold">{{ datosObtenidoDeLocalStorage?.telefono }}</div>
+        <i class="pi pi-calendar mr-2"></i><span>Fecha de creación:</span>
+        <div class="text-sm mt-1 font-bold">{{ datosObtenidoDeLocalStorage?.createdAt | dateFormat }}</div>
+      </div>
+
+      <!-- Tarjeta del Cliente -->
+      <div class="bg-white text-black p-4 rounded-lg flex flex-col items-center">
+        <i class="pi pi-file mr-2"></i><span>Nº de Protocolo</span>
+        <div class="text-lg font-bold mt-2">{{ datosObtenidoDeLocalStorage?.protocolo }}</div>
+      </div>
+    </div>
+
+    <div class="bg-white text-black p-4 text-xs font-semibold grid grid-cols-2 gap-4">
+      <div class="flex justify-between">
+        <i class="pi pi-calendar mr-2"></i><span>Fecha de Nacimiento:</span>
+        <span>{{ datosObtenidoDeLocalStorage?.nacimiento | dateFormat }}</span>
+      </div>
+      <div class="flex justify-between">
+        <i class="pi pi-calendar mr-2"></i><span>Edad:</span>
+        <span>{{ datosObtenidoDeLocalStorage?.edad }} años</span>
+      </div>
+      <div class="flex justify-between">
+        <i class="pi pi-map-marker mr-2"></i><span>Dirección:</span>
+        <span>{{ datosObtenidoDeLocalStorage?.direccion }}</span>
+      </div>
+      <div class="flex justify-between">
+        <i class="pi pi-map mr-2"></i><span>Localidad:</span>
+        <span>{{ datosObtenidoDeLocalStorage?.localidad }}</span>
+      </div>
+      <div class="flex justify-between">
+        <i class="pi pi-shield mr-2"></i><span>Seguridad Social:</span>
+        <span>{{ datosObtenidoDeLocalStorage?.seguridadSocial }}</span>
+      </div>
+      <div class="flex justify-between">
+        <i class="pi pi-comment mr-2"></i><span>Observaciones:</span>
+        <span>{{ datosObtenidoDeLocalStorage?.obs }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Datos del Profesional -->
+  <div class="mt-6 bg-gray-100 shadow-lg rounded-lg overflow-hidden p-6">
+    <h2 class="text-xl font-bold mb-4 text-blue-600"><i class="pi pi-user-edit mr-2"></i>Datos del Profesional</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col">
+        <i class="pi pi-user mr-2"></i><span class="font-semibold text-gray-900">Nombre:</span>
+        <span class="mt-1 text-black">{{ datosUsuarioById?.nombre }}</span>
+      </div>
+      <div class="flex flex-col">
+        <i class="pi pi-envelope mr-2"></i><span class="font-semibold text-gray-900">Email:</span>
+        <span class="mt-1 text-black">{{ datosUsuarioById?.email }}</span>
+      </div>
+      <!-- Añade más campos según sea necesario -->
+    </div>
+  </div>
+
+  <!-- Indicaciones médicas -->
+  <div class="card rounded mt-3 text-black">
+    <p-tabView class="text-amber-950">
+      <p-tabPanel *ngFor="let indicacion of indicaciones" [header]="indicacion.titulo" class="text-black">
+        <p class="tab-content">
+          {{ indicacion.texto }}
+        </p>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+
+  <!-- Tabla de Resultados -->
+  <div class="container mx-auto mt-8">
+    <h2 class="text-2xl font-bold mb-4"><i class="pi pi-table mr-2"></i>Resultados</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-200 text-amber-800">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b border-gray-200 text-left"><i class="pi pi-code mr-2"></i>Código</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left"><i class="pi pi-tags mr-2"></i>Determinación</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left"><i class="pi pi-chart-bar mr-2"></i>Resultado</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left"><i class="pi pi-box mr-2"></i>U.B</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left"><i class="pi pi-dollar mr-2"></i>Suma U.B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let resultado of resultados">
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.codigo }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.determinacion }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.resultado }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.unidadBase }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">$ {{ resultado.valorTotal }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-xl font-semibold text-white"><i class="pi pi-calculator mr-2"></i>Valor Total: $ {{ valorSumar
+      }}</p>
+  </div>
+
+  <div class="flex justify-center mt-6 mb-8 ">
+    <button class="cursor-pointer bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="salir()">
+      <i class="pi pi-power-off mr-2"></i>Salir
+    </button>
+  </div>
+</div>

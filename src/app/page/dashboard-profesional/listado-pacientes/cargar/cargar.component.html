@@ -1,0 +1,118 @@
+<!-- Botón volver -->
+<div class="container mx-auto p-4 max-w-4xl">
+  <div class="flex items-center space-x-2 mb-4">
+    <i class="pi pi-arrow-left cursor-pointer text-lg text-white" routerLink="/listado-pacientes"
+      aria-hidden="true"></i>
+    <span class="cursor-pointer text-lg text-white" routerLink="/listado-pacientes"></span>
+  </div>
+
+  <!-- Resultados guardados -->
+  <div class="max-w-full mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-bold mb-4 text-black">Resultados guardados</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full bg-white border border-gray-200 text-amber-800">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b border-gray-200 text-left text-black">Código</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left text-black">Determinación</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left text-black">Resultado</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left text-black">Unidad Base</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left text-black">Total U.B</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left text-black">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let resultado of resultados">
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.codigo }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.determinacion }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.resultado }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">{{ resultado.unidadBase }}</td>
+            <td class="py-2 px-4 border-b border-gray-200 text-black">$ {{ resultado.valorTotal }}</td>
+            <td class="py-2 px-4 flex space-x-2">
+              <button (click)="eliminarResultadoPorId(resultado.id)"
+                class="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
+                <i class="pi pi-trash" aria-hidden="true"></i> Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Cargar valor de unidad base -->
+  <div class="max-w-full mx-auto my-6 p-4 bg-white shadow-lg rounded-lg">
+    <h4 class="text-lg font-semibold mb-4 text-black">Cargar valor de unidad base</h4>
+    <input type="number" #valor [value]="valor_unitario"
+      class="w-full p-2 border border-gray-300 rounded mb-4 text-black">
+    <button *ngIf="!boton_actualizar" (click)="obtenerValor(valor.value)"
+      class="w-auto px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+      <i class="pi pi-save" aria-hidden="true"></i> Guardar
+    </button>
+    <div class="mt-4">
+      <button *ngIf="boton_actualizar" (click)="obtenerValor(valor.value)"
+        class="w-auto px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+        <i class="pi pi-refresh" aria-hidden="true"></i> Actualizar
+      </button>
+      <div class="mt-4">
+        <p class="text-emerald-400"><strong>Valor de U.B cargado:</strong>$ {{ valor_unitario }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buscar por Código -->
+  <div class="max-w-full mx-auto my-6 p-4 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold mb-6 text-black">Buscar por Código</h2>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="mb-6">
+      <label for="codigo" class="block text-sm font-semibold mb-2 text-black">Código:</label>
+      <input type="number" id="codigo" formControlName="codigo"
+        class="w-full px-4 p-2 border border-gray-300 rounded mb-4 text-gray-800">
+      <button type="submit" class="w-auto px-4 py-2 bg-green-600 rounded hover:bg-green-700 text-white">
+        <i class="pi pi-search" aria-hidden="true"></i> Buscar
+      </button>
+    </form>
+    <div>
+      <div *ngIf="showResult && nomenclaturas.length === 0" class="p-4 bg-red-100 text-red-700 rounded mb-4">
+        <p><i class="pi pi-exclamation-triangle mr-2" aria-hidden="true"></i>No se encontraron resultados para el código
+          {{ searchForm.value.codigo }}</p>
+      </div>
+      <div *ngIf="showResult === false && searchForm.valid" class="p-4 bg-gray-100 text-gray-700 rounded mb-4">
+        <p><i class="pi pi-info-circle mr-2" aria-hidden="true"></i>Ingresa un código para realizar la búsqueda</p>
+      </div>
+      <div *ngIf="searchForm.invalid && searchForm.dirty" class="p-4 bg-yellow-100 text-yellow-700 rounded mb-4">
+        <p><i class="pi pi-exclamation-circle mr-2" aria-hidden="true"></i>El código es requerido y debe ser un número
+          válido</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de Resultado -->
+  <div class="max-w-full mx-auto my-6 p-4 bg-white shadow-lg rounded-lg" *ngIf="showResult && nomenclaturas.length > 0">
+    <h4 class="text-lg font-semibold mb-4 text-black">Lista de Resultado</h4>
+    <table class="w-full bg-white shadow-md rounded-lg overflow-hidden mb-4">
+      <thead class="bg-gray-900">
+        <tr>
+          <th class="px-4 py-2 text-white">Código</th>
+          <th class="px-4 py-2 text-white">Determinación</th>
+          <th class="px-4 py-2 text-white">Resultado</th>
+          <th class="px-4 py-2 text-white">U.B</th>
+          <th class="px-4 py-2 text-white">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let nomenclatura of nomenclaturas" class="border-b">
+          <td class="px-4 py-2 text-black">{{ nomenclatura.codigo }}</td>
+          <td class="px-4 py-2 text-black">{{ nomenclatura.determinacion }}</td>
+          <td class="px-4 py-2 text-black">
+            <input type="number" [(ngModel)]="nomenclatura.resultado" class="w-full p-2 border border-gray-300 rounded">
+          </td>
+          <td class="px-4 py-2 text-black">{{ nomenclatura.unidadBase }}</td>
+          <td class="px-4 py-2 text-black">$ {{ nomenclatura.valorTotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button (click)="guardarResultados()" class="w-auto px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+      <i class="pi pi-save" aria-hidden="true"></i> Guardar Resultado
+    </button>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<p class="cursor-pointer text-white font-bold my-3">
+  <i class="pi pi-arrow-left mr-2" aria-hidden="true"></i>
+</p>
+
+<div class="container mx-auto p-4">
+  <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+    <h2 class="text-2xl font-bold mb-4">
+      <i class="pi pi-plus mr-2" aria-hidden="true"></i> Nueva Indicación
+    </h2>
+    
+    <div class="mb-4">
+      <label for="titulo" class="block text-sm font-medium text-gray-700">
+        <i class="pi pi-tag mr-2" aria-hidden="true"></i> Título
+      </label>
+      <input [(ngModel)]="nuevaIndicacionTitulo" id="titulo" type="text"
+        class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+    </div>
+    
+    <div class="mb-4">
+      <label for="texto" class="block text-sm font-medium text-gray-700">
+        <i class="pi pi-pencil mr-2" aria-hidden="true"></i> Texto
+      </label>
+      <textarea [(ngModel)]="nuevaIndicacionTexto" id="texto" rows="10"
+        class="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+    </div>
+
+    <div class="flex justify-end">
+      <button (click)="crearNuevaIndicacion()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+        <i class="pi pi-check mr-2" aria-hidden="true"></i> Crear Indicación
+      </button>
+    </div>
+  </div>
+</div>
+

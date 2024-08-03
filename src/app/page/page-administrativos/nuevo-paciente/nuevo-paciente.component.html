@@ -1,0 +1,136 @@
+<div class="flex items-center space-x-2 mb-4 ml-3">
+  <a routerLink="/dashboard-admin" class="flex items-center text-lg font-semibold text-white cursor-pointer">
+    <i class="pi pi-arrow-left ml-3 mt-1"></i>
+  </a>
+</div>
+
+<div class="container mx-auto p-6">
+  <div class="bg-white shadow-lg rounded-lg p-6 max-w-lg mx-auto">
+    <h4 class="text-2xl font-bold mb-4 text-indigo-700">
+      <i class="pi pi-file mr-2"></i> Nueva ficha
+    </h4>
+    <form [formGroup]="clienteForm" (ngSubmit)="submitForm()" class="space-y-4">
+      <div>
+        <label for="protocolo" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-id-card mr-1"></i>Protocolo nº:
+        </label>
+        <input type="number" placeholder="Ingresar protocolo" formControlName="protocolo"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="nombre" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-user mr-1"></i>Nombre:
+        </label>
+        <input type="text" id="nombre" formControlName="nombre"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="dni" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-id-card mr-1"></i>DNI:
+        </label>
+        <input type="text" id="dni" formControlName="dni"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="nacimiento" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-calendar mr-1"></i>Fecha de Nacimiento:
+        </label>
+        <input type="date" id="nacimiento" formControlName="nacimiento" (change)="calcularEdad()"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="edad" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-calendar-plus mr-1"></i>Edad:
+        </label>
+        <input type="number" id="edad" formControlName="edad" readonly
+          class="text-black w-full border border-gray-300 rounded-md p-2 bg-gray-100 cursor-not-allowed" />
+      </div>
+
+      <div>
+        <label for="direccion" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-home mr-1"></i>Dirección:
+        </label>
+        <input type="text" id="direccion" formControlName="direccion"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="localidad" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-map-marker mr-1"></i>Localidad:
+        </label>
+        <input type="text" id="localidad" formControlName="localidad"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="telefono" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-phone mr-1"></i>Teléfono:
+        </label>
+        <input type="tel" id="telefono" formControlName="telefono"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-envelope mr-1"></i>Email:
+        </label>
+        <input type="email" id="email" formControlName="email"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="seguridadSocial" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-medical mr-1"></i>Seguridad Social:
+        </label>
+        <select id="seguridadSocial" formControlName="seguridadSocial"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="IAPOS">IAPOS</option>
+          <option value="PAMI">PAMI</option>
+          <option value="OSECAC">OSECAC</option>
+          <option value="OSPRERA">OSPRERA</option>
+          <option value="OTRA">OTRA</option>
+        </select>
+        <p class="text-gray-600 text-sm mt-1">Si no encuentra la obra social requerida, coloque OTRA y en observaciones mencione la que corresponda.</p>
+      </div>
+
+      <div>
+        <label for="obs" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-comment mr-1"></i>Observaciones:
+        </label>
+        <textarea id="obs" formControlName="obs" rows="4"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+      </div>
+
+      <!-- Lista desplegable para seleccionar un profesional -->
+      <div class="mt-5">
+        <label for="profesional" class="block text-gray-700 font-medium mb-1">
+          <i class="pi pi-user-md mr-1"></i>Vincular al Profesional Interviniente:
+        </label>
+        <select id="profesional" (change)="onProfesionalChange($event)"
+          class="text-black w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="" disabled selected>Seleccione un profesional</option>
+          <option *ngFor="let profesional of datosDeUsuarios" [value]="profesional.id">{{ profesional.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Mostrar el nombre del profesional seleccionado -->
+      <div *ngIf="nombreProfesionalSeleccionado" class="mt-2 p-2 bg-gray-100 rounded-md">
+        <p class="text-gray-700">
+          <i class="pi pi-check-circle mr-1"></i>Profesional seleccionado: <span class="font-semibold">{{ nombreProfesionalSeleccionado }}</span>
+        </p>
+      </div>
+
+      <!-- Espacio vacío al final de la página -->
+      <div class="py-4"></div>
+
+      <button type="submit" [disabled]="clienteForm.invalid"
+        class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50">
+        <i class="pi pi-save mr-2"></i>Crear Cliente
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="flex items-center space-x-2 mb-4 ml-3">
+  <span class="cursor-pointer text-lg font-semibold text-white" routerLink="/dash-prof">
+    <i class="pi pi-arrow-left mr-2" aria-hidden="true"></i>
+  </span>
+</div>
+
+<div *ngIf="loadingUsuario; else usuarioData">
+  <div class="flex justify-center">
+    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+  </div>
+</div>
+
+<ng-template #usuarioData>
+  <div class="bg-white shadow-md rounded-lg p-6 mb-4 w-full max-w-xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-gray-900">
+      <i class="pi pi-user mr-2" aria-hidden="true"></i> Datos del Usuario
+    </h2>
+    <div *ngFor="let dato of datosDeUsuario" class="text-black">
+      <p><strong><i class="pi pi-id-card mr-2" aria-hidden="true"></i> Rol:</strong> {{ dato.rol }}</p>
+      <p><strong><i class="pi pi-briefcase mr-2" aria-hidden="true"></i> Área:</strong> {{ dato.area }}</p>
+      <p><strong><i class="pi pi-user mr-2" aria-hidden="true"></i> Nombre:</strong> {{ dato.nombre }}</p>
+      <p><strong><i class="pi pi-envelope mr-2" aria-hidden="true"></i> Email:</strong> {{ dato.email }}</p>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Botón para crear nueva indicación -->
+<div class="flex justify-center mb-4">
+  <button routerLink="/nueva-indicac" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+    <i class="pi pi-plus mr-2" aria-hidden="true"></i> Nueva Indicación
+  </button>
+</div>
+
+<!-- Acordeón para las indicaciones -->
+<div *ngIf="loadingIndicaciones; else indicacionesData">
+  <div class="flex justify-center">
+    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+  </div>
+</div>
+
+<ng-template #indicacionesData>
+  <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-gray-900">
+      <i class="pi pi-list mr-2" aria-hidden="true"></i> Indicaciones
+    </h2>
+    <div *ngFor="let indicacion of indicacionesBackend" class="border-b border-gray-200 pb-4 mb-4">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-xl font-semibold text-black">
+            <i class="pi pi-tag mr-2" aria-hidden="true"></i> {{ indicacion.titulo }}
+          </h3>
+          <p class="text-black">{{ indicacion.texto }}</p>
+        </div>
+        <div class="flex space-x-2">
+          <button (click)="onDelete(indicacion.id)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+            <i class="pi pi-trash mr-2" aria-hidden="true"></i> Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
