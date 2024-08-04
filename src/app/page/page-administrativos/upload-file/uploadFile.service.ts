@@ -14,7 +14,7 @@ export class UploadFileService {
   constructor() { }
 
   obtenerManyClientes(): Observable<any> {
-    return from(axios.get(`${this.clienteUrl}/forAdmin`).then(response => response.data));
+    return from(axios.get(`${this.clienteUrl}`).then(response => response.data));
   }
 
   createFile(clienteId: number, file: File): Observable<any> {
