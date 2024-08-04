@@ -44,7 +44,7 @@ export class RegistroComponent {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userData', JSON.stringify(response.data));
           console.log('Usuario registrado exitosamente:', response.data);
-          this.route.navigate(['/dash-prof'])
+          this.route.navigate(['/home'])
           // Aquí podrías manejar la respuesta exitosa como lo necesites
         });
       

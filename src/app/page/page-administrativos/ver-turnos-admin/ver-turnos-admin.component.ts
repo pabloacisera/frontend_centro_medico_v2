@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { VerTurnosAdminService } from './ver-turnos-admin.service';
 import { Turnos } from '../../sistema-turnos/sistema-turnos.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FilterPipe } from './filter.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone:true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FilterPipe, FormsModule, ReactiveFormsModule],
   selector: 'app-ver-turnos-admin',
   templateUrl: './ver-turnos-admin.component.html',
   styleUrls: ['./ver-turnos-admin.component.css']
@@ -17,8 +20,12 @@ export class VerTurnosAdminComponent implements OnInit {
   datosDeClientesEncontrados: { [id: number]: any } = {};
   datosDeUsuariosEncontrados: { [id: number]: any } = {};
   isLoading:boolean = false;
+  searchTerm: string = '';
 
-  constructor(private verTurnosService: VerTurnosAdminService) { }
+  constructor(
+    private verTurnosService: VerTurnosAdminService,
+    private toastr:ToastrService,
+  ) { }
 
   ngOnInit() {
     this.obtenerTodosLosTurnos();
@@ -77,8 +84,25 @@ export class VerTurnosAdminComponent implements OnInit {
   /**desestructura fecha */
   obtenerFechaYHora(fechaCompleta: string): { fecha: string, hora: string } {
     const fecha = new Date(fechaCompleta);
-    const fechaString = fecha.toISOString().split('T')[0]; // Obtener solo la fecha
-    const horaString = fecha.toISOString().split('T')[1].split('.')[0]; // Obtener solo la hora (sin milisegundos)
+    const datePipe = new DatePipe('es-ES'); // Cambia el idioma si lo necesitas
+  
+    // Formatear la fecha en "1 de enero de 2000"
+    const fechaString = datePipe.transform(fecha, 'd \'de\' MMMM \'de\' yyyy'); 
+    // Formatear la hora en "HH:mm"
+    const horaString = datePipe.transform(fecha, 'HH:mm'); 
+  
     return { fecha: fechaString, hora: horaString };
+  }
+
+  borrarTurno(id: number) {
+    this.verTurnosService.borrarTurnoPorId(id).subscribe({
+      next: response => {
+        this.toastr.warning('Se ha eliminado el turno de DB', 'Info')
+      },
+      error: err=> {
+        this.toastr.error('No se ha podido cancelar turno', 'Info')
+        throw new Error('No se ha podido borrar registro de DB: ', err)
+      }
+    })
   }
 }
