@@ -12,6 +12,7 @@ import { SharedModule } from './page/dashboard-profesional/listado-pacientes/sha
 import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { DateFormatPipe } from './date-format.pipe';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { AppGateway } from './app.gateway';
 
 const socketIoConfig: SocketIoConfig = { url: 'https://backend-centro-medico-4.onrender.com', options: {} };
 
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     importProvidersFrom(SharedModule),
     importProvidersFrom(DateFormatPipe),
+    importProvidersFrom(SocketIoModule.forRoot(socketIoConfig)),
     provideAnimations(),
     provideToastr({
       timeOut:5000,
@@ -31,6 +33,5 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-botton-right'
     }),
     provideHttpClient(withInterceptors([tokenInterceptorInterceptor])),
-    importProvidersFrom(SocketIoModule.forRoot(socketIoConfig)),
   ]
 };
