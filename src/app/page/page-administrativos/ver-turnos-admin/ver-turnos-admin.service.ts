@@ -26,4 +26,8 @@ export class VerTurnosAdminService {
   obtenerUsuariosPorId(id: number): Observable<any> {
     return from(axios.get(`${this.urlUsuario}/${id}`).then(response => response.data));
   }
+
+  borrarTurnoPorId(id: number): Observable<any> {
+    return from(axios.delete(`${this.urlTurnos}/${id}`).then(response => response.data));
+  }
 }

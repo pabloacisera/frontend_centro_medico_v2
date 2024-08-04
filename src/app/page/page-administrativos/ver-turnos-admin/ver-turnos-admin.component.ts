@@ -97,12 +97,13 @@ export class VerTurnosAdminComponent implements OnInit {
   borrarTurno(id: number) {
     this.verTurnosService.borrarTurnoPorId(id).subscribe({
       next: response => {
-        this.toastr.warning('Se ha eliminado el turno de DB', 'Info')
+        this.toastr.warning('Se ha eliminado el turno de DB', 'Info');
+        this.obtenerTodosLosTurnos(); // Refrescar la lista de turnos
       },
-      error: err=> {
-        this.toastr.error('No se ha podido cancelar turno', 'Info')
-        throw new Error('No se ha podido borrar registro de DB: ', err)
+      error: err => {
+        this.toastr.error('No se ha podido cancelar turno', 'Info');
+        console.error('No se ha podido borrar registro de DB: ', err);
       }
-    })
+    });
   }
 }
