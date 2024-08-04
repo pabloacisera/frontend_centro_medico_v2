@@ -37,4 +37,8 @@ export class DashboardAdminComponent implements OnInit {
   enrutarABandeja(){
     this.route.navigate(['/bandeja-correo'])
   }
+
+  enrutarAVerTurno() {
+    this.route.navigate(['/ver-turnos-admin'])
+  }
 }

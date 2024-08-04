@@ -32,6 +32,7 @@ import { ArchivosComponent } from './page/dashboard-profesional/listado-paciente
 import { ImapflowBandejaCorreosComponent } from './page/imapflow-bandeja-correos/imapflow-bandeja-correos.component';
 import { ChatWebsocketComponent } from './components/chat-websocket/chat-websocket.component';
 import { VerTurnosComponent } from './page/ver-turnos/ver-turnos.component';
+import { VerTurnosAdminComponent } from './page/page-administrativos/ver-turnos-admin/ver-turnos-admin.component';
 
 export const routes: Routes = [
 
@@ -73,6 +74,7 @@ export const routes: Routes = [
     { path: 'admin-turno', canActivate: [authGuardAdmin], component: SistemaTurnosComponent },
     { path: 'upload-file', canActivate: [authGuardAdmin], component: UploadFileComponent},
     { path: 'bandeja-correo', canActivate: [authGuardAdmin], component: ImapflowBandejaCorreosComponent},
+    { path: 'ver-turnos-admin', canActivate: [authGuardAdmin], component: VerTurnosAdminComponent},
 
     /**ruta de testeo */
     { path: 'test', component: TestComponentComponent },
