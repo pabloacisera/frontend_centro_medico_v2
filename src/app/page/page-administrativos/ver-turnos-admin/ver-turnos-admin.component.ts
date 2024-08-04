@@ -79,10 +79,11 @@ export class VerTurnosAdminComponent implements OnInit {
         console.error('Error al obtener el usuario:', error);
       }
     });
-  }
+  }  
 
   getClienteNombre(id: number): string {
-    return this.datosDeClientesEncontrados[id]?.nombre || 'Desconocido';
+    const cliente = this.datosDeClientesEncontrados[id];
+    return cliente ? cliente.nombre : 'Desconocido';
   }
 
   getUsuarioNombre(id: number): string {
