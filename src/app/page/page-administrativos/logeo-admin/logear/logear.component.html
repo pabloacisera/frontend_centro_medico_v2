@@ -43,12 +43,24 @@
         </div>
       </div>
 
+      <!-- Cambia el contenido del botón basado en isLoading -->
       <div>
-        <button type="submit"
+        <button type="submit" [disabled]="isLoading"
           class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          <i class="pi pi-sign-in mr-2"></i>Ingresa
+          <ng-container *ngIf="isLoading; else showText">
+            <!-- Spinner -->
+            <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 1 1 16 0A8 8 0 0 1 4 12z"></path>
+            </svg>
+            Cargando...
+          </ng-container>
+          <ng-template #showText>
+            <i class="pi pi-sign-in mr-2"></i>Ingresa
+          </ng-template>
         </button>
       </div>
+
     </form>
     <p class="mt-10 text-center text-sm text-gray-500">
       Todavía no está registrado?

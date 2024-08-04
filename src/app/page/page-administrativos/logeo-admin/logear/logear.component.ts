@@ -16,6 +16,7 @@ export class LogearAdminComponent implements OnInit {
   
   public datosDeLogeo!: any;
   formularioDeLogeo!: FormGroup;
+  isLoading: boolean = false
 
   constructor(private fb: FormBuilder, private ruta: Router, private servicio: LogearAdminService) {
     this.formularioDeLogeo = this.fb.group({
@@ -27,6 +28,7 @@ export class LogearAdminComponent implements OnInit {
   ngOnInit(): void {}
 
   async onSubmit() {
+    this.isLoading = true
     if (this.formularioDeLogeo.valid) {
       const data = this.formularioDeLogeo.value;
       try {
@@ -35,15 +37,19 @@ export class LogearAdminComponent implements OnInit {
         if (response && response.user) { // Ajusta a la respuesta esperada
           localStorage.setItem('userData', JSON.stringify(response.user));
           console.log('Paciente logeado exitosamente:', response.user);
+          this.isLoading =false
           this.ruta.navigate(['/dashboard-admin']);
         } else {
           console.error('Respuesta inesperada del servidor:', response);
+          this.isLoading= false;
         }
       } catch (error) {
         console.error('Error al registrar usuario:', error);
+        this.isLoading = false
       }
     } else {
       console.error('Formulario inválido');
+      this.isLoading = false
     }
   }  
 }

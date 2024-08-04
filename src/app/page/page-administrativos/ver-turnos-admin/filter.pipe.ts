@@ -14,7 +14,7 @@ export class FilterPipe implements PipeTransform {
     return items.filter(item => {
       const clienteNombre = clientes[item.clienteId]?.nombre?.toLowerCase() || '';
       const fecha = new Date(item.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' }).toLowerCase();
-      const hora = new Date(item.fecha).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).toLowerCase();
+      const hora = new Date(item.fecha).toLocaleTimeString('es-ES', { hour: 'numeric', minute: 'numeric', hour12: true }).toLowerCase();
 
       return clienteNombre.includes(searchTerm) ||
              fecha.includes(searchTerm) ||
@@ -22,5 +22,6 @@ export class FilterPipe implements PipeTransform {
     });
   }
 }
+
 
 
