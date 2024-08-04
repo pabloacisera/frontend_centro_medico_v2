@@ -30,7 +30,7 @@
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-      <tr *ngFor="let turno of datosDeTurnos | filter:searchTerm">
+      <tr *ngFor="let turno of datosDeTurnos | filter:searchTerm:datosDeClientesEncontrados">
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
           {{ obtenerFechaYHora(turno.fecha).fecha }}
         </td>
