@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { VerTurnosAdminService } from './ver-turnos-admin.service';
 import { Turnos } from '../../sistema-turnos/sistema-turnos.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone:true,
+  imports: [CommonModule],
   selector: 'app-ver-turnos-admin',
   templateUrl: './ver-turnos-admin.component.html',
   styleUrls: ['./ver-turnos-admin.component.css']
@@ -12,6 +15,7 @@ export class VerTurnosAdminComponent implements OnInit {
   datosDeTurnos: Turnos[] = [];
   datosDeClientesEncontrados: { [id: number]: any } = {};
   datosDeUsuariosEncontrados: { [id: number]: any } = {};
+  isLoading:boolean = false;
 
   constructor(private verTurnosService: VerTurnosAdminService) { }
 
@@ -20,6 +24,7 @@ export class VerTurnosAdminComponent implements OnInit {
   }
 
   obtenerTodosLosTurnos() {
+    this.isLoading = true
     this.verTurnosService.obtenerTodosLosTurnos().subscribe({
       next: response => {
         this.datosDeTurnos = response;
@@ -29,9 +34,11 @@ export class VerTurnosAdminComponent implements OnInit {
         // Obtener datos de clientes y usuarios
         clienteIds.forEach(id => this.obtenerDatosDeClientes(id));
         usuarioIds.forEach(id => this.obtenerDatosDeUsuarios(id));
+        this.isLoading = false
       },
       error: error => {
         console.error('Error al obtener los turnos:', error);
+        this.isLoading = false
       }
     });
   }
@@ -64,5 +71,13 @@ export class VerTurnosAdminComponent implements OnInit {
 
   getUsuarioNombre(id: number): string {
     return this.datosDeUsuariosEncontrados[id]?.nombre || 'Desconocido';
+  }
+
+  /**desestructura fecha */
+  obtenerFechaYHora(fechaCompleta: string): { fecha: string, hora: string } {
+    const fecha = new Date(fechaCompleta);
+    const fechaString = fecha.toISOString().split('T')[0]; // Obtener solo la fecha
+    const horaString = fecha.toISOString().split('T')[1].split('.')[0]; // Obtener solo la hora (sin milisegundos)
+    return { fecha: fechaString, hora: horaString };
   }
 }
