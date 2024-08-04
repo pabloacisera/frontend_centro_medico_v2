@@ -15,7 +15,7 @@ export class SistemaTurnosService {
   private apiUrlPresenciaCliente = environment.urlCliente;
   private urlCliente = environment.urlCliente;
 
-  constructor() {}
+  constructor() { }
 
   crearTurno(turno: Turnos): Observable<any> {
     return from(axios.post(this.apiUrl, turno, {
@@ -24,7 +24,7 @@ export class SistemaTurnosService {
       }
     }).then(response => response.data));
   }
-  
+
   obtenerUsuarios(): Observable<Usuario[]> {
     return from(axios.get(this.apiUsuarioUrl).then(response => response.data as Usuario[]));
   }
@@ -35,6 +35,17 @@ export class SistemaTurnosService {
 
   buscarClientesByIdUsuario(userId: number): Promise<Cliente[]> {
     return axios.get<Cliente[]>(`${this.urlCliente}?userId=${userId}`).then(response => response.data);
+  }
+
+  notificarTurnoPorEmail(emailData: { turno: Turnos, clienteEmail: string, clienteNombre: string, fechaTurno: string }): Observable<void> {
+    return from(
+      axios.post(`${this.apiUrl}/notificar-turno`, emailData)
+        .then(() => { })
+        .catch(err => {
+          console.error('Error al enviar notificación de turno por correo: ', err);
+          throw err;
+        })
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { VerTurnosAdminService } from './ver-turnos-admin.service';
 import { Turnos } from '../../sistema-turnos/sistema-turnos.component';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -6,6 +6,8 @@ import { RouterLink } from '@angular/router';
 import { FilterPipe } from './filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AvisoPresenciaComponent } from '../../../aviso-presencia/aviso-presencia.component';
+import { NotificationService } from '../../../aviso-presencia/notificacion-global.service';
 
 @Component({
   standalone:true,
@@ -17,16 +19,20 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class VerTurnosAdminComponent implements OnInit {
 
+  @ViewChild(AvisoPresenciaComponent) notification: AvisoPresenciaComponent;
+
   datosDeTurnos: Turnos[] = [];
   datosDeClientesEncontrados: { [id: number]: any } = {};
   datosDeUsuariosEncontrados: { [id: number]: any } = {};
   isLoading:boolean = false;
   searchTerm: string = '';
+  mensaje: string = '';
 
   constructor(
     private verTurnosService: VerTurnosAdminService,
     private toastr:ToastrService,
-    private datePipe: DatePipe 
+    private datePipe: DatePipe,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -104,5 +110,12 @@ export class VerTurnosAdminComponent implements OnInit {
         console.error('No se ha podido borrar registro de DB: ', err);
       }
     });
+  }
+
+  notificarPresenciaDePaciente(nombre: string): void {
+    const mensaje = `El paciente ${nombre} ha llegado al establecimiento.`;
+
+    // Notificar a todos los usuarios
+    this.notificationService.notify(mensaje);
   }
 }

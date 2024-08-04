@@ -32,7 +32,7 @@ export interface Cliente {
   standalone: true,
   selector: 'app-sistema-turnos',
   imports: [
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     PaginatorModule,
@@ -46,7 +46,7 @@ export interface Cliente {
 })
 export class SistemaTurnosComponent implements OnInit {
 
-  @ViewChild(AvisoPresenciaComponent) notification: AvisoPresenciaComponent;
+  
 
   turnos: Turnos[] = [];
   usuarios: Usuario[] = [];
@@ -128,11 +128,48 @@ export class SistemaTurnosComponent implements OnInit {
           this.toastr.warning('Turno no disponible. Por favor, seleccione otra fecha.');
         } else {
           this.toastr.success('Turno creado exitosamente');
+
+          /**si el turno se ha creado se debe enviar un mail */
+          this.notificarTurnoPorEmail()
         }
       },
       error: err => {
         console.error('Error al crear Turno: ', err);
         this.toastr.warning('No se pudo crear el turno');
+      }
+    });
+  }
+
+  /**funcion para enviar mail */
+  notificarTurnoPorEmail(): void {
+    const cliente = this.clientes.find(cliente => cliente.id === this.clientId);
+    const usuario = this.usuarios.find(usuario => usuario.id === this.userId);
+
+    if (!cliente || !usuario) {
+      this.toastr.error('No se encontraron datos del cliente o del profesional.');
+      return;
+    }
+
+    const fechaTurno = this.datePipe.transform(this.fecha, 'dd/MM/yyyy') + ' ' + this.hora;
+
+    const emailDataToSend = {
+      turno: {
+        fecha: `${this.fecha}T${this.hora}:00Z`,
+        clienteId: this.clientId,
+        userId: this.userId
+      },
+      clienteEmail: cliente.email,
+      clienteNombre: cliente.nombre,
+      fechaTurno: fechaTurno
+    };
+
+    this.turnosService.notificarTurnoPorEmail(emailDataToSend).subscribe({
+      next: () => {
+        this.toastr.success('Notificación de turno enviada por correo.');
+      },
+      error: err => {
+        console.error('Error al enviar notificación de turno por correo: ', err);
+        this.toastr.error('No se pudo enviar la notificación por correo.');
       }
     });
   }
