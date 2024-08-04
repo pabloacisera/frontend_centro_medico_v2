@@ -1,116 +1,21 @@
-<p class="cursor-pointer ml-2 mt-2 font-bold flex items-center" (click)="volver()">
-  <i class="pi pi-arrow-left mr-2"></i>
-</p>
-<div class="card mx-auto">
-  <div class="p-6">
-    <h1 class="text-2xl font-bold mb-4">Crear Turno</h1>
-    <form class="space-y-4" (submit)="crearTurno(fecha.value, clienteSelect.value, usuarioSelect.value)">
-      <div>
-        <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha y hora:</label>
-        <div class="relative">
-          <i class="pi pi-calendar absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-          <input type="datetime-local" id="fecha" name="fecha" #fecha required
-            class="pl-10 text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-        </div>
-      </div>
-      <div class="relative">
-        <i class="pi pi-briefcase absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-        <select id="usuarioSelect" name="usuarioSelect" #usuarioSelect required
-          (change)="onUsuarioSelect($event)"
-          class="pl-10 text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-          <option *ngFor="let usuario of usuarios" [value]="usuario.id">{{ usuario.nombre }}</option>
-        </select>
-      </div>              
-      <div>
-        <label for="clienteSelect" class="block text-sm font-medium text-gray-700">Seleccionar Cliente:</label>
-        <div class="relative">
-          <i class="pi pi-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-          <select id="clienteSelect" name="clienteSelect" #clienteSelect required
-            class="pl-10 text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            <option *ngFor="let cliente of clientes" [value]="cliente.id">{{ cliente.nombre }}</option>
-          </select>
-        </div>
-      </div>
-      <div class="flex justify-center">
-        <button type="submit"
-          class="py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-sm">
-          Crear Turno
-        </button>
-      </div>
-    </form>
-    <p *ngIf="mensaje" class="mt-4 text-red-600">{{ mensaje }}</p>
+<p (click)="volver()">vovler</p>
 
-    <h1 class="text-2xl font-bold mt-8 mb-4">Turnos</h1>
-    <div class="relative">
-      <!-- Mensaje de carga -->
-      <div *ngIf="isLoading" class="absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-10">
-        <div class="card p-2 bg-white shadow-md">
-          <h4 class="text-black"><strong>Cargando datos del turno...</strong></h4>
-        </div>
-      </div>
+<input type="date">
 
-      <!-- Agregar controles de filtrado -->
-      <div class="mb-3">
-        <label for="filterMonth">Filtrar por mes:</label>
-        <input class="text-black" type="month" id="filterMonth" (change)="filterByMonth($event)" />
-
-        <label for="filterDay">Filtrar por día:</label>
-        <input class="text-black" type="date" id="filterDay" (change)="filterByDay($event)" />
-      </div>
-
-      <button>actualizar</button>
-
-      <!-- Tabla -->
-      <table *ngIf="!isLoading" class="min-w-full bg-white shadow-md rounded-lg overflow-hidden mb-3">
-        <thead class="bg-gray-50">
-          <tr>
-            <th (click)="sortData('fecha')"
-              class="cursor-pointer px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Fecha
-            </th>
-            <th (click)="sortData('clienteId')"
-              class="cursor-pointer px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Paciente
-            </th>
-            <th (click)="sortData('userId')"
-              class="cursor-pointer px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Profesional
-            </th>
-            <th
-              class="px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Acción
-            </th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr *ngFor="let item of sortedTurnos">
-            <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
-              {{ formatFecha(item.fecha) }}
-            </td>
-            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500"></td>
-            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500"></td>
-            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-              <button (click)="seleccionarPaciente(item.clienteId)"
-                class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <i class="pi pi-check-circle mr-2"></i> Marcar presencia
-              </button>
-            </td>
-            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">
-              <button (click)="cancelarPorId(item.id)"
-                class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                <i class="pi pi-times-circle mr-2"></i> Cancelar
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="card flex justify-center mt-6">
-        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="120"
-          [rowsPerPageOptions]="[10, 20, 30]" />
-      </div>
-    </div>
-  </div>
+<div class="container">
+  <ol class="scrollable-list">
+      <li *ngFor="let item of usuarios">{{ item.nombre }} <button (click)="seleccionarUsuario(item.id)">seleccionar</button></li>
+  </ol>
 </div>
+
+<div class="container">
+  <ol class="scrollable-list">
+    <li *ngFor="let item of clientes">{{item.nombre}} <button (click)="seleccionarPaciente(item.id)" >seleccionar</button> </li>
+  </ol>
+</div>
+
+<button>crear</button>
+
+
 
 <app-aviso-presencia></app-aviso-presencia>
