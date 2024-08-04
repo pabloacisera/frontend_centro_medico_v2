@@ -57,7 +57,7 @@ export class SistemaTurnosComponent implements OnInit {
     private toastr: ToastrService,
     private ruta: Router,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.obtenerUsuarios();
@@ -98,15 +98,20 @@ export class SistemaTurnosComponent implements OnInit {
   }
 
   crearTurno(): void {
+    // Asegúrate de que la fecha está en formato ISO con la 'Z' para UTC
     const turno: Turnos = {
-      fecha: `${this.fecha}T${this.hora}:00Z`, // Asegúrate de agregar la 'Z' para indicar que es UTC
+      fecha: `${this.fecha}T${this.hora}:00Z`,
       clienteId: this.clientId,
       userId: this.userId
     };
-  
+
     this.turnosService.crearTurno(turno).subscribe({
       next: data => {
-        this.toastr.success('Turno creado exitosamente');
+        if (data.mensaje === 'Turno no disponible') {
+          this.toastr.warning('Turno no disponible. Por favor, seleccione otra fecha.');
+        } else {
+          this.toastr.success('Turno creado exitosamente');
+        }
       },
       error: err => {
         console.error('Error al crear Turno: ', err);
@@ -114,6 +119,7 @@ export class SistemaTurnosComponent implements OnInit {
       }
     });
   }
+
 
   volver(): void {
     this.ruta.navigate(['/dashboard-admin']);
