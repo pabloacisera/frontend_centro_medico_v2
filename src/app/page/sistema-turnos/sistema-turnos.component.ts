@@ -81,8 +81,6 @@ export class SistemaTurnosComponent implements OnInit {
 
   recolectarFuncionesYMetodos() {
     this.obtenerUsuarios();
-    this.obtenerClientes();
-    this.obtenerTurnos();
     this.sortedTurnos = [...this.turnos];
     this.capturarRespuestaSocket()
   }
@@ -94,6 +92,8 @@ export class SistemaTurnosComponent implements OnInit {
   }
   /************/
 
+
+  /**seleccionar usuarios para buscar pacientes */
   obtenerUsuarios(): void {
     this.turnosService.obtenerUsuarios().subscribe({
       next: (usuarios) => {
@@ -106,38 +106,23 @@ export class SistemaTurnosComponent implements OnInit {
     });
   }
 
-  obtenerClientes(): void {
-    this.turnosService.obtenerClientes().subscribe({
-      next: (clientes) => {
-        this.clientes = clientes;
-        console.log('Datos del cliente: ', this.clientes)
-      },
-      error: (error) => {
-        console.error('Error al obtener clientes', error);
-      }
-    });
+  onUsuarioSelect(userId: string): void {
+    if (userId) {
+      this.obtenerClientes(Number(userId));
+    }
   }
 
-  obtenerTurnos(): void {
-    this.isLoading = true;
-    this.turnosService.obtenerTurno().subscribe({
-      next: (turnos) => {
-        this.turnos = turnos;
-        this.filteredTurnos = turnos;
-        this.sortedTurnos = [...turnos];
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error al obtener turnos', error);
-        this.isLoading = false;
-      }
-    });
+  async obtenerClientes(userId: number): Promise<void> {
+    try {
+      this.clientes = await this.turnosService.buscarClientesByIdUsuario(userId);
+    } catch (error) {
+      console.error('Error al obtener clientes:', error);
+    }
   }
 
-  async actualizarListaturnos(){
-    return this.obtenerTurnos()
-  }
 
+
+  /************************************************/
 
   crearTurno(fechaStr: string, clienteIdStr: string, userIdStr: string): void {
     const fecha = new Date(fechaStr).toISOString();
@@ -156,7 +141,7 @@ export class SistemaTurnosComponent implements OnInit {
         this.turnos.push(nuevoTurno);
         this.toastr.success('Se ha creado un nuevo turno', 'Actualización de turno');
         this.mensaje = 'Turno creado exitosamente.';
-        this.obtenerTurnos()
+        //this.obtenerTurnos()
         this.ocultarMensaje();
 
         // Obtener cliente y usuario para la notificación
@@ -204,11 +189,6 @@ export class SistemaTurnosComponent implements OnInit {
     }, 5000);
   }
 
-  getClienteNombre(clienteId: number): string {
-    const cliente = this.clientes.find(c => c.id === clienteId);
-    return cliente ? cliente.nombre : 'Desconocido';
-  }
-
   getUsuarioNombre(usuarioId: number): string {
     const usuario = this.usuarios.find(u => u.id === usuarioId);
     return usuario ? usuario.nombre : 'Desconocido';
@@ -250,7 +230,7 @@ export class SistemaTurnosComponent implements OnInit {
   getFieldValue(item: any, field: string) {
     switch (field) {
       case 'fecha': return new Date(item.fecha).getTime();
-      case 'clienteId': return this.getClienteNombre(item.clienteId).toLowerCase();
+      //case 'clienteId': return this.getClienteNombre(item.clienteId).toLowerCase();
       case 'userId': return this.getUsuarioNombre(item.userId).toLowerCase();
       default: return '';
     }
@@ -317,7 +297,7 @@ export class SistemaTurnosComponent implements OnInit {
     console.log('Id para cancelar: ', id);
     try {
       const res = this.turnosService.borrarTurno(id);
-      this.obtenerTurnos()
+      //this.obtenerTurnos()
       this.toastr.warning('Se ha cancelado un turno', 'Actualizacion de turno');
     } catch (error) {
       console.log(error)

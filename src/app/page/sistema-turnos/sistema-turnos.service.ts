@@ -13,9 +13,9 @@ export class SistemaTurnosService {
   private baseUrl = environment.apiBaseUrl
   private apiUrl = environment.urlTurnos
   private apiUsuarioUrl = environment.urlUsuario
-  private apiClienteUrl = environment.urlCliente
   private apiUrlPresenciaCliente = environment.urlCliente
-  private privateUrlTurno = environment.mailServiceUrl
+  private urlCliente = environment.urlCliente
+  private urlTurno = environment.urlTurnos
 
   constructor() { }
 
@@ -23,23 +23,15 @@ export class SistemaTurnosService {
     return from(axios.post(this.apiUrl, turno).then(response => response.data));
   }
 
-  obtenerTurno(): Observable<Turnos[]> {
-    return from(axios.get(this.apiUrl).then(response => response.data));
-  }
-
   obtenerUsuarios(): Observable<Usuario[]> {
     return from(axios.get(this.apiUsuarioUrl).then(response => response.data as Usuario[]));
-  }
-
-  obtenerClientes(): Observable<Cliente[]> {
-    return from(axios.get(`${this.apiClienteUrl}/forAdmin`).then(response => response.data as Cliente[]));
   }
 
   borrarTurno(id: number) {
     return from(axios.delete(`${this.apiUrl}/${id}`).then(response => response.data));
   }
 
-  notificarTurnoPorEmail(emailData: { turno: Turnos, clienteEmail: string, clienteNombre: string, fechaTurno: string }): Observable<void> {
+  notificarTurnoPorEmail(emailData: { turno: Turnos, clienteEmail: string, clienteNombre: string, fechaTurno: string }) {
     const { turno, clienteEmail, clienteNombre, fechaTurno } = emailData;
 
     const emailDataToSend = {
@@ -50,7 +42,18 @@ export class SistemaTurnosService {
       text: `Estimado/a ${clienteNombre},\n\nEste es un recordatorio de que tiene un turno programado para el ${fechaTurno}. Por favor, no falte.\n\nSaludos cordiales,\nAdministración.`
     };
 
-    return from(axios.post(`${this.privateUrlTurno}/notificar-turno`, emailDataToSend).then(() => { }));
+    return from(axios.post(`${this.urlTurno}/notificar-turno`, emailDataToSend).then(() => { }));
+  }
+
+  async buscarClientesByIdUsuario(userId: number): Promise<Cliente[]> {
+    try {
+      const response = await axios.get<Cliente[]>(`${this.urlCliente}?userId=${userId}`);
+      console.log('Respuesta de axios: ', response)
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener clientes por ID de usuario:', error);
+      throw error;
+    }
   }
 }
 
