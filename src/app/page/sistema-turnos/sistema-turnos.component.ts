@@ -98,22 +98,21 @@ export class SistemaTurnosComponent implements OnInit {
   }
 
   crearTurno(): void {
-
     const turno: Turnos = {
-      fecha: `${this.fecha}T${this.hora}:00`,
+      fecha: `${this.fecha}T${this.hora}:00Z`, // Asegúrate de agregar la 'Z' para indicar que es UTC
       clienteId: this.clientId,
       userId: this.userId
-    }
-
+    };
+  
     this.turnosService.crearTurno(turno).subscribe({
       next: data => {
-        this.toastr.success('Turno creado exitosamente')
+        this.toastr.success('Turno creado exitosamente');
       },
       error: err => {
-        console.error('Error al crear Turno: ', err)
-        this.toastr.warning('No se pudo crear el turno')
+        console.error('Error al crear Turno: ', err);
+        this.toastr.warning('No se pudo crear el turno');
       }
-    })
+    });
   }
 
   volver(): void {
