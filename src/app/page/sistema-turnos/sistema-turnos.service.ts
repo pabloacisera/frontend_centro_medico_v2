@@ -18,9 +18,13 @@ export class SistemaTurnosService {
   constructor() {}
 
   crearTurno(turno: Turnos): Observable<any> {
-    return from(axios.post(this.apiUrl, turno).then(response => response.data));
+    return from(axios.post(this.apiUrl, turno, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.data));
   }
-
+  
   obtenerUsuarios(): Observable<Usuario[]> {
     return from(axios.get(this.apiUsuarioUrl).then(response => response.data as Usuario[]));
   }

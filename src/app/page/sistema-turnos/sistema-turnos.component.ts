@@ -98,12 +98,22 @@ export class SistemaTurnosComponent implements OnInit {
   }
 
   crearTurno(): void {
+    // Verificar que todos los campos necesarios estén presentes
+    if (!this.fecha || !this.hora || !this.clientId || !this.userId) {
+      this.toastr.warning('Por favor, complete todos los campos necesarios.');
+      return;
+    }
+
+    // Crear el objeto turno
     const turno: Turnos = {
       fecha: `${this.fecha}T${this.hora}:00Z`,
       clienteId: this.clientId,
       userId: this.userId
     };
-  
+
+    console.log('Datos del turno a enviar:', turno);
+
+    // Enviar los datos al servicio
     this.turnosService.crearTurno(turno).subscribe({
       next: data => {
         if (data.mensaje === 'Turno no disponible') {
@@ -118,13 +128,12 @@ export class SistemaTurnosComponent implements OnInit {
       }
     });
   }
-  
-
 
   volver(): void {
     this.ruta.navigate(['/dashboard-admin']);
   }
 }
+
 
 
 
