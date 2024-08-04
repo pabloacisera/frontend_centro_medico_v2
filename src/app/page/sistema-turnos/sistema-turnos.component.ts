@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AvisoPresenciaComponent } from '../../aviso-presencia/aviso-presencia.component';
 import { NotificationService } from '../../aviso-presencia/notificacion-global.service';
@@ -31,7 +31,15 @@ export interface Cliente {
 @Component({
   standalone: true,
   selector: 'app-sistema-turnos',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, PaginatorModule, TableModule, AvisoPresenciaComponent],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule,
+    FormsModule,
+    PaginatorModule,
+    TableModule,
+    AvisoPresenciaComponent,
+    RouterLink,
+  ],
   templateUrl: './sistema-turnos.component.html',
   styleUrls: ['./sistema-turnos.component.css'],
   providers: [DatePipe]
@@ -133,6 +141,7 @@ export class SistemaTurnosComponent implements OnInit {
     this.ruta.navigate(['/dashboard-admin']);
   }
 }
+
 
 
 

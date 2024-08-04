@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { VerTurnosAdminService } from './ver-turnos-admin.service';
 import { Turnos } from '../../sistema-turnos/sistema-turnos.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone:true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   selector: 'app-ver-turnos-admin',
   templateUrl: './ver-turnos-admin.component.html',
   styleUrls: ['./ver-turnos-admin.component.css']
