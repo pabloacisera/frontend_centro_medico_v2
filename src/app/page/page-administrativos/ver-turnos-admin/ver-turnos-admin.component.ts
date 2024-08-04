@@ -12,7 +12,8 @@ import { ToastrService } from 'ngx-toastr';
   imports: [CommonModule, RouterLink, FilterPipe, FormsModule, ReactiveFormsModule],
   selector: 'app-ver-turnos-admin',
   templateUrl: './ver-turnos-admin.component.html',
-  styleUrls: ['./ver-turnos-admin.component.css']
+  styleUrls: ['./ver-turnos-admin.component.css'],
+  providers: [DatePipe]
 })
 export class VerTurnosAdminComponent implements OnInit {
 
@@ -25,6 +26,7 @@ export class VerTurnosAdminComponent implements OnInit {
   constructor(
     private verTurnosService: VerTurnosAdminService,
     private toastr:ToastrService,
+    private datePipe: DatePipe 
   ) { }
 
   ngOnInit() {
@@ -84,12 +86,10 @@ export class VerTurnosAdminComponent implements OnInit {
   /**desestructura fecha */
   obtenerFechaYHora(fechaCompleta: string): { fecha: string, hora: string } {
     const fecha = new Date(fechaCompleta);
-    const datePipe = new DatePipe('es-ES'); // Cambia el idioma si lo necesitas
-  
     // Formatear la fecha en "1 de enero de 2000"
-    const fechaString = datePipe.transform(fecha, 'd \'de\' MMMM \'de\' yyyy'); 
+    const fechaString = this.datePipe.transform(fecha, 'd \'de\' MMMM \'de\' yyyy'); 
     // Formatear la hora en "HH:mm"
-    const horaString = datePipe.transform(fecha, 'HH:mm'); 
+    const horaString = this.datePipe.transform(fecha, 'HH:mm'); 
   
     return { fecha: fechaString, hora: horaString };
   }
