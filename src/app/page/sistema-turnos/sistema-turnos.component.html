@@ -1,21 +1,42 @@
-<p (click)="volver()">vovler</p>
+<p (click)="volver()" class="cursor-pointer text-blue-500 hover:text-blue-700">Volver</p>
 
-<input type="date">
+<div class="container mx-auto p-4">
+  <div class="mb-4">
+    <label for="fecha" class="block text-gray-700">Fecha:</label>
+    <input id="fecha" type="date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+  </div>
 
-<div class="container">
-  <ol class="scrollable-list">
-      <li *ngFor="let item of usuarios">{{ item.nombre }} <button (click)="seleccionarUsuario(item.id)">seleccionar</button></li>
-  </ol>
+  <div class="mb-4">
+    <label for="hora" class="block text-gray-700">Hora:</label>
+    <input id="hora" type="time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="container max-h-60 overflow-y-auto border border-gray-300 rounded-md shadow-sm p-4">
+      <h2 class="text-lg font-semibold mb-2">Usuarios</h2>
+      <ol class="scrollable-list">
+        <li class="mb-2 flex justify-between items-center">seleeciona un profesional</li>
+        <li *ngFor="let item of usuarios" class="mb-2 flex justify-between items-center">
+          {{ item.nombre }}
+          <button (click)="seleccionarUsuario(item.id)" class="ml-4 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-700">Seleccionar</button>
+        </li>
+      </ol>
+    </div>
+    <div class="container max-h-60 overflow-y-auto border border-gray-300 rounded-md shadow-sm p-4">
+      <h2 class="text-lg font-semibold mb-2">Clientes</h2>
+      <ol class="scrollable-list">
+        <li class="mb-2 flex justify-between items-center" >selecciona un paciente</li>
+        <li *ngFor="let item of clientes" class="mb-2 flex justify-between items-center">
+          {{ item.nombre }}
+          <button (click)="seleccionarPaciente(item.id)" class="ml-4 px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-700">Seleccionar</button>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <button (click)="crearTurno()" class="w-full px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-700">Crear Turno</button>
+  </div>
 </div>
-
-<div class="container">
-  <ol class="scrollable-list">
-    <li *ngFor="let item of clientes">{{item.nombre}} <button (click)="seleccionarPaciente(item.id)" >seleccionar</button> </li>
-  </ol>
-</div>
-
-<button>crear</button>
-
-
 
 <app-aviso-presencia></app-aviso-presencia>

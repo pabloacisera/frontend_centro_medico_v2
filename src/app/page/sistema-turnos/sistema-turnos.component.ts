@@ -48,6 +48,8 @@ export class SistemaTurnosComponent implements OnInit {
   respuestaSocket: Subscription;
   userId: number = 0;
   clientId: number = 0;
+  fecha: string = '';
+  hora: string = '';
 
   constructor(
     private turnosService: SistemaTurnosService,
@@ -93,6 +95,25 @@ export class SistemaTurnosComponent implements OnInit {
   seleccionarPaciente(id: number): void {
     this.clientId = id;
     console.log('ID del cliente seleccionado:', this.clientId);
+  }
+
+  crearTurno(): void {
+
+    const turno: Turnos = {
+      fecha: `${this.fecha}T${this.hora}:00`,
+      clienteId: this.clientId,
+      userId: this.userId
+    }
+
+    this.turnosService.crearTurno(turno).subscribe({
+      next: data => {
+        this.toastr.success('Turno creado exitosamente')
+      },
+      error: err => {
+        console.error('Error al crear Turno: ', err)
+        this.toastr.warning('No se pudo crear el turno')
+      }
+    })
   }
 
   volver(): void {
