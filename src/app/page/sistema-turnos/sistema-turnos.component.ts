@@ -98,13 +98,12 @@ export class SistemaTurnosComponent implements OnInit {
   }
 
   crearTurno(): void {
-    // Asegúrate de que la fecha está en formato ISO con la 'Z' para UTC
     const turno: Turnos = {
       fecha: `${this.fecha}T${this.hora}:00Z`,
       clienteId: this.clientId,
       userId: this.userId
     };
-
+  
     this.turnosService.crearTurno(turno).subscribe({
       next: data => {
         if (data.mensaje === 'Turno no disponible') {
@@ -119,6 +118,7 @@ export class SistemaTurnosComponent implements OnInit {
       }
     });
   }
+  
 
 
   volver(): void {
