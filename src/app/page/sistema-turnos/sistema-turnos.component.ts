@@ -98,7 +98,7 @@ export class SistemaTurnosComponent implements OnInit {
     this.turnosService.obtenerUsuarios().subscribe({
       next: (usuarios) => {
         this.usuarios = usuarios;
-        console.log('Datos del usuario: ', this.usuarios)
+        console.log('Datos del usuario: ', this.usuarios);
       },
       error: (error) => {
         console.error('Error al obtener usuarios', error);
@@ -106,7 +106,9 @@ export class SistemaTurnosComponent implements OnInit {
     });
   }
 
-  onUsuarioSelect(userId: string): void {
+  onUsuarioSelect(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const userId = selectElement.value;
     if (userId) {
       this.obtenerClientes(Number(userId));
     }
@@ -115,12 +117,11 @@ export class SistemaTurnosComponent implements OnInit {
   async obtenerClientes(userId: number): Promise<void> {
     try {
       this.clientes = await this.turnosService.buscarClientesByIdUsuario(userId);
+      console.log('Pacientes del profesional: ', this.clientes);
     } catch (error) {
       console.error('Error al obtener clientes:', error);
     }
   }
-
-
 
   /************************************************/
 
@@ -227,10 +228,15 @@ export class SistemaTurnosComponent implements OnInit {
     });
   }
 
+  getClienteNombre(clienteId: number): string {
+    const cliente = this.clientes.find(c => c.id === clienteId);
+    return cliente ? cliente.nombre : 'Desconocido';
+  }
+
   getFieldValue(item: any, field: string) {
     switch (field) {
       case 'fecha': return new Date(item.fecha).getTime();
-      //case 'clienteId': return this.getClienteNombre(item.clienteId).toLowerCase();
+      case 'clienteId': return this.getClienteNombre(item.clienteId).toLowerCase();
       case 'userId': return this.getUsuarioNombre(item.userId).toLowerCase();
       default: return '';
     }
@@ -297,7 +303,6 @@ export class SistemaTurnosComponent implements OnInit {
     console.log('Id para cancelar: ', id);
     try {
       const res = this.turnosService.borrarTurno(id);
-      //this.obtenerTurnos()
       this.toastr.warning('Se ha cancelado un turno', 'Actualizacion de turno');
     } catch (error) {
       console.log(error)
@@ -307,6 +312,8 @@ export class SistemaTurnosComponent implements OnInit {
   volver() {
     this.ruta.navigate(['/dashboard-admin'])
   }
+
+  //faltan obtener los turnos
 }
 
 

@@ -13,17 +13,14 @@
             class="pl-10 text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
         </div>
       </div>
-      <div>
-        <label for="usuarioSelect" class="block text-sm font-medium text-gray-700">Seleccionar Profesional:</label>
-        <div class="relative">
-          <i class="pi pi-briefcase absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-          <select id="usuarioSelect" name="usuarioSelect" #usuarioSelect required
-            (change)="onUsuarioSelect(usuarioSelect.value)"
-            class="pl-10 text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            <option *ngFor="let usuario of usuarios" [value]="usuario.id">{{ usuario.nombre }}</option>
-          </select>
-        </div>
-      </div>      
+      <div class="relative">
+        <i class="pi pi-briefcase absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        <select id="usuarioSelect" name="usuarioSelect" #usuarioSelect required
+          (change)="onUsuarioSelect($event)"
+          class="pl-10 text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <option *ngFor="let usuario of usuarios" [value]="usuario.id">{{ usuario.nombre }}</option>
+        </select>
+      </div>              
       <div>
         <label for="clienteSelect" class="block text-sm font-medium text-gray-700">Seleccionar Cliente:</label>
         <div class="relative">
