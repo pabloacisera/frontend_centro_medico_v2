@@ -7,8 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AvisoPresenciaComponent } from '../../aviso-presencia/aviso-presencia.component';
-import { NotificationService } from '../../aviso-presencia/notificacion-global.service';
 
 export interface Turnos {
   id?: number;
@@ -37,7 +35,6 @@ export interface Cliente {
     FormsModule,
     PaginatorModule,
     TableModule,
-    AvisoPresenciaComponent,
     RouterLink,
   ],
   templateUrl: './sistema-turnos.component.html',
@@ -64,7 +61,6 @@ export class SistemaTurnosComponent implements OnInit {
     private datePipe: DatePipe,
     private toastr: ToastrService,
     private ruta: Router,
-    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
