@@ -21,14 +21,14 @@ export class AppComponent {
 
   ngOnInit() {
     this.notificacionService.getNotifications().subscribe((nombreCliente: string) => {
-      this.toastr.info(`El paciente ${nombreCliente} se encuentra en el establecimiento`);
       this.applySoundNotification()
+      this.toastr.info(`El paciente ${nombreCliente} se encuentra en el establecimiento`);
     });
   }
 
   applySoundNotification() {
     const audio = new Audio('/assets/check-mark_oPG7Xo5.mp3')
-    audio.play
+    audio.play()
   }
 }
 

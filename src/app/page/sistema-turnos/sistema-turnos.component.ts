@@ -142,33 +142,30 @@ export class SistemaTurnosComponent implements OnInit {
     const usuario = this.usuarios.find(usuario => usuario.id === this.userId);
 
     if (!cliente || !usuario) {
-      this.toastr.error('No se encontraron datos del cliente o del profesional.');
-      return;
+        this.toastr.error('No se encontraron datos del cliente o del profesional.');
+        return;
     }
 
     const fechaTurno = this.datePipe.transform(this.fecha, 'dd/MM/yyyy') + ' ' + this.hora;
 
     const emailDataToSend = {
-      turno: {
-        fecha: `${this.fecha}T${this.hora}:00Z`,
-        clienteId: this.clientId,
-        userId: this.userId
-      },
-      clienteEmail: cliente.email,
-      clienteNombre: cliente.nombre,
-      fechaTurno: fechaTurno
+        clienteEmail: cliente.email,
+        clienteNombre: cliente.nombre,
+        nombreProfesional: usuario.nombre,
+        fechaTurno: fechaTurno
     };
 
     this.turnosService.notificarTurnoPorEmail(emailDataToSend).subscribe({
-      next: () => {
-        this.toastr.success('Notificación de turno enviada por correo.');
-      },
-      error: err => {
-        console.error('Error al enviar notificación de turno por correo: ', err);
-        this.toastr.error('No se pudo enviar la notificación por correo.');
-      }
+        next: () => {
+            this.toastr.success('Notificación de turno enviada por correo.');
+        },
+        error: err => {
+            console.error('Error al enviar notificación de turno por correo: ', err);
+            this.toastr.error('No se pudo enviar la notificación por correo.');
+        }
     });
-  }
+}
+
 
   volver(): void {
     this.ruta.navigate(['/dashboard-admin']);
