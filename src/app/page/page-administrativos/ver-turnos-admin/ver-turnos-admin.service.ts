@@ -13,9 +13,6 @@ export class VerTurnosAdminService {
   private urlCliente = environment.urlCliente;
   private urlUsuario = environment.urlUsuario;
 
-  /**emitters */
-  @Output() disparadorDeNotificaciones: EventEmitter<{ nombreCliente: string }> = new EventEmitter();
-
   constructor() { }
 
   obtenerTodosLosTurnos(): Observable<Turnos[]> {

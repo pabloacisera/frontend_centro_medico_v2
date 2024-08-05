@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { VerTurnosAdminService } from './page/page-administrativos/ver-turnos-admin/ver-turnos-admin.service';
-;
+import { Servicio_notificacion_socketioService } from './servicio.socket/servicio_notificacion_socket.io.service';
 
 @Component({
   selector: 'app-root',
@@ -17,13 +16,13 @@ export class AppComponent {
 
   constructor(
     private toastr: ToastrService,
-    private notificacion: VerTurnosAdminService,
+    private notificacionService: Servicio_notificacion_socketioService 
   ) {}
 
   ngOnInit() {
-    this.notificacion.disparadorDeNotificaciones.subscribe( data=> {
-      this.toastr.info(`El paciente ${data} se encuentra en el establecimiento`, 'AVISO')
-    })
+    this.notificacionService.getNotifications().subscribe((nombreCliente: string) => {
+      this.toastr.info(`El paciente ${nombreCliente} se encuentra en el establecimiento`);
+    });
   }
 }
 

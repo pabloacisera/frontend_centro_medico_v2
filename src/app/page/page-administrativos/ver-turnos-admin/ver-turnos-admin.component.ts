@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { FilterPipe } from './filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Servicio_notificacion_socketioService } from '../../../servicio.socket/servicio_notificacion_socket.io.service';
 
 @Component({
   standalone: true,
@@ -29,6 +30,7 @@ export class VerTurnosAdminComponent implements OnInit {
     private verTurnosService: VerTurnosAdminService,
     private toastr: ToastrService,
     private datePipe: DatePipe,
+    private notificacionService: Servicio_notificacion_socketioService
   ) { }
 
   ngOnInit() {
@@ -113,13 +115,13 @@ export class VerTurnosAdminComponent implements OnInit {
     this.verTurnosService.obtenerClientesPorId(clienteId).subscribe({
       next: (data) => {
         if (data && data.nombre) {
-          let nombreCliente = data.nombre;
+          let nombreCliente = data.nombre;        
 
-          this.verTurnosService.disparadorDeNotificaciones.emit({
-            nombreCliente,
-          })
-          
-          console.log('Nombre del cliente:', nombreCliente);
+          /**ejecutar notificacion global */
+
+          this.notificacionService.notifyPresence(nombreCliente);
+
+
         } else {
           console.error('Datos del cliente no contienen el campo nombre');
         }
