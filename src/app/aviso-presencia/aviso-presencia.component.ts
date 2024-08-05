@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from '../../socket-Service/socket.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'app-aviso-presencia',
   templateUrl: './aviso-presencia.component.html',
   styleUrls: ['./aviso-presencia.component.css']
