@@ -6,8 +6,8 @@ import { RouterLink } from '@angular/router';
 import { FilterPipe } from './filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AvisoPresenciaComponent } from '../../../aviso-presencia/aviso-presencia.component';
-import { NotificationService } from '../../../aviso-presencia/notificacion-global.service';
+import { SocketService } from './websocket.service';
+
 
 @Component({
   standalone:true,
@@ -19,7 +19,6 @@ import { NotificationService } from '../../../aviso-presencia/notificacion-globa
 })
 export class VerTurnosAdminComponent implements OnInit {
 
-  @ViewChild(AvisoPresenciaComponent) notification: AvisoPresenciaComponent;
 
   datosDeTurnos: Turnos[] = [];
   datosDeClientesEncontrados: { [id: number]: any } = {};
@@ -32,7 +31,7 @@ export class VerTurnosAdminComponent implements OnInit {
     private verTurnosService: VerTurnosAdminService,
     private toastr:ToastrService,
     private datePipe: DatePipe,
-    private notificationService: NotificationService
+    private socketService: SocketService
   ) { }
 
   ngOnInit() {
@@ -113,10 +112,7 @@ export class VerTurnosAdminComponent implements OnInit {
     });
   }
 
-  notificarPresenciaDePaciente(nombre: string): void {
-    const mensaje = `El paciente ${nombre} ha llegado al establecimiento.`;
-
-    // Notificar a todos los usuarios
-    this.notificationService.notify(mensaje);
+  notificarPresenciaDePaciente(id: number): void {
+    this.socketService.enviarNotificacion(id);
   }
 }

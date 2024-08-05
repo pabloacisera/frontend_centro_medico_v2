@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SocketService } from '../socket-Service/socket.service';
-import { NotificationService } from './aviso-presencia/notificacion-global.service';
 import { CommonModule } from '@angular/common';
-import { AvisoPresenciaComponent } from './aviso-presencia/aviso-presencia.component';
+import { SocketService } from './page/page-administrativos/ver-turnos-admin/websocket.service';
+import { ToastrService } from 'ngx-toastr';
+;
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, AvisoPresenciaComponent],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -16,18 +16,13 @@ export class AppComponent {
   title = 'MEDILINK- software de gestion de datos';
 
   constructor(
-    private webSocketService: SocketService,
-    private notificationService: NotificationService
+    private socketService: SocketService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
-    this.capturarRespuestaSocket();
-  }
-
-  capturarRespuestaSocket() {
-    this.webSocketService.onNotification().subscribe((data) => {
-      const message = `El paciente ${data} se encuentra presente en el establecimiento`;
-      this.notificationService.notify(message);
+    this.socketService.recibirNotificacion().subscribe((id: number) => {
+      this.toastr.info(`El paciente con ID ${id} está presente.`, 'Notificación de Presencia');
     });
   }
 }
