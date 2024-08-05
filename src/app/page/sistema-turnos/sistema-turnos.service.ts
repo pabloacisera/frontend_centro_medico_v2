@@ -36,10 +36,10 @@ export class SistemaTurnosService {
     return axios.get<Cliente[]>(`${this.urlCliente}?userId=${userId}`).then(response => response.data);
   }
 
-  notificarTurnoPorEmail(emailData: { clienteEmail: string, clienteNombre: string, nombreProfesional: string, fechaTurno: string }): Observable<void> {
+  notificarTurnoPorEmail(emailData: { turno: Turnos, clienteEmail: string, clienteNombre: string, profesionalNombre: string, fechaTurno: string }): Observable<void> {
     return from(
       axios.post(`${this.baseUrl}/mail/notificar-turno`, emailData)
-        .then(() => { })
+        .then(() => {})
         .catch(err => {
           console.error('Error al enviar notificación de turno por correo: ', err);
           throw err;
