@@ -12,6 +12,7 @@ import { SharedModule } from './page/dashboard-profesional/listado-pacientes/sha
 import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { DateFormatPipe } from './date-format.pipe';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { AvisoPresenciaModule } from './aviso-presencia/aviso-presencia.module';
 
 const socketIoConfig: SocketIoConfig = { url: 'https://backend-centro-medico-4.onrender.com', options: {} };
 
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     importProvidersFrom(SharedModule),
     importProvidersFrom(DateFormatPipe),
+    importProvidersFrom(AvisoPresenciaModule),
     importProvidersFrom(SocketIoModule.forRoot(socketIoConfig)),
     provideAnimations(),
     provideToastr({
