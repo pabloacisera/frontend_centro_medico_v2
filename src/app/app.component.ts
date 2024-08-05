@@ -25,10 +25,11 @@ export class AppComponent {
   }
 
   capturarRespuestaSocket() {
-    this.webSocketService.mensajeEvent().subscribe((data) => {
+    this.webSocketService.onNotification().subscribe((data) => {
       const message = `El paciente ${data} se encuentra presente en el establecimiento`;
       this.notificationService.notify(message);
     });
   }
 }
+
 

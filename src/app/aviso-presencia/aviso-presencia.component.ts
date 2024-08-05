@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SocketService } from '../../socket-Service/socket.service';
+import { NotificationService } from './notificacion-global.service';
+import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,15 +11,14 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./aviso-presencia.component.css']
 })
 export class AvisoPresenciaComponent implements OnInit {
-
   message: string = '';
   visible: boolean = false;
   private audio = new Audio('assets/check-mark_oPG7Xo5.mp3');
 
-  constructor(private socketService: SocketService) { }
+  constructor(private notificationService: NotificationService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.socketService.onNotification().subscribe(message => {
+    this.notificationService.getNotification().subscribe(message => {
       this.showMessage(message);
     });
   }
@@ -27,6 +27,10 @@ export class AvisoPresenciaComponent implements OnInit {
     this.message = message;
     this.visible = true;
     this.playSound();
+    this.toastr.success(this.message, 'Presencia Confirmada', {
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right'
+    });
     setTimeout(() => {
       this.visible = false;
     }, 10000);
@@ -36,4 +40,5 @@ export class AvisoPresenciaComponent implements OnInit {
     this.audio.play();
   }
 }
+
 
