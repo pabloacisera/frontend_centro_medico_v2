@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { SocketService } from './page/page-administrativos/ver-turnos-admin/websocket.service';
 import { ToastrService } from 'ngx-toastr';
+import { VerTurnosAdminService } from './page/page-administrativos/ver-turnos-admin/ver-turnos-admin.service';
 ;
 
 @Component({
@@ -16,14 +16,14 @@ export class AppComponent {
   title = 'MEDILINK- software de gestion de datos';
 
   constructor(
-    private socketService: SocketService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private notificacion: VerTurnosAdminService,
   ) {}
 
   ngOnInit() {
-    this.socketService.recibirNotificacion().subscribe((id: number) => {
-      this.toastr.info(`El paciente con ID ${id} está presente.`, 'Notificación de Presencia');
-    });
+    this.notificacion.disparadorDeNotificaciones.subscribe( data=> {
+      this.toastr.info(`El paciente ${data} se encuentra en el establecimiento`, 'AVISO')
+    })
   }
 }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { environment } from '../../../../environment/environment.prod';
 import { from, Observable } from 'rxjs';
 import axios from 'axios';
@@ -12,6 +12,9 @@ export class VerTurnosAdminService {
   private urlTurnos = environment.urlTurnos;
   private urlCliente = environment.urlCliente;
   private urlUsuario = environment.urlUsuario;
+
+  /**emitters */
+  @Output() disparadorDeNotificaciones: EventEmitter<{ nombreCliente: string }> = new EventEmitter();
 
   constructor() { }
 
@@ -29,5 +32,5 @@ export class VerTurnosAdminService {
 
   borrarTurnoPorId(id: number): Observable<any> {
     return from(axios.delete(`${this.urlTurnos}/${id}`).then(response => response.data));
-  }
+  }  
 }

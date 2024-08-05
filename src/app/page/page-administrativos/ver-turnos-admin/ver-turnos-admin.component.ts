@@ -6,11 +6,9 @@ import { RouterLink } from '@angular/router';
 import { FilterPipe } from './filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { SocketService } from './websocket.service';
-
 
 @Component({
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, RouterLink, FilterPipe, FormsModule, ReactiveFormsModule],
   selector: 'app-ver-turnos-admin',
   templateUrl: './ver-turnos-admin.component.html',
@@ -23,15 +21,14 @@ export class VerTurnosAdminComponent implements OnInit {
   datosDeTurnos: Turnos[] = [];
   datosDeClientesEncontrados: { [id: number]: any } = {};
   datosDeUsuariosEncontrados: { [id: number]: any } = {};
-  isLoading:boolean = false;
+  isLoading: boolean = false;
   searchTerm: string = '';
   mensaje: string = '';
 
   constructor(
     private verTurnosService: VerTurnosAdminService,
-    private toastr:ToastrService,
+    private toastr: ToastrService,
     private datePipe: DatePipe,
-    private socketService: SocketService
   ) { }
 
   ngOnInit() {
@@ -78,7 +75,7 @@ export class VerTurnosAdminComponent implements OnInit {
         console.error('Error al obtener el usuario:', error);
       }
     });
-  }  
+  }
 
   getClienteNombre(id: number): string {
     const cliente = this.datosDeClientesEncontrados[id];
@@ -92,10 +89,10 @@ export class VerTurnosAdminComponent implements OnInit {
   obtenerFechaYHora(fechaCompleta: string): { fecha: string, hora: string } {
     const fecha = new Date(fechaCompleta);
     // Formatear la fecha en "1 de agosto de 2024"
-    const fechaString = this.datePipe.transform(fecha, 'd \'de\' MMMM \'de\' yyyy', 'es-ES'); 
+    const fechaString = this.datePipe.transform(fecha, 'd \'de\' MMMM \'de\' yyyy', 'es-ES');
     // Formatear la hora en "hh:mm a"
-    const horaString = this.datePipe.transform(fecha, 'hh:mm a', 'es-ES'); 
-  
+    const horaString = this.datePipe.transform(fecha, 'hh:mm a', 'es-ES');
+
     return { fecha: fechaString, hora: horaString };
   }
 
@@ -112,7 +109,24 @@ export class VerTurnosAdminComponent implements OnInit {
     });
   }
 
-  notificarPresenciaDePaciente(id: number): void {
-    this.socketService.enviarNotificacion(id);
+  notificarPresenciaDePaciente(clienteId: number) {
+    this.verTurnosService.obtenerClientesPorId(clienteId).subscribe({
+      next: (data) => {
+        if (data && data.nombre) {
+          let nombreCliente = data.nombre;
+
+          this.verTurnosService.disparadorDeNotificaciones.emit({
+            nombreCliente,
+          })
+          
+          console.log('Nombre del cliente:', nombreCliente);
+        } else {
+          console.error('Datos del cliente no contienen el campo nombre');
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener el cliente:', err);
+      }
+    });
   }
 }
