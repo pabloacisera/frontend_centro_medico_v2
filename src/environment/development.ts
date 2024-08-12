@@ -10,5 +10,6 @@ export const environment = {
     urlTurnos: 'http://localhost:3000/api/v2/sist-turnos',
     mailServiceUrl: 'http://localhost:3000/api/v2/mail',
     urlAutenticacionPaciente : 'http://localhost:3000/api/v2/autenticacion-paciente',
-    urlFile: 'http://localhost:3000/api/v2/upload-file'
+    urlFile: 'http://localhost:3000/api/v2/upload-file',
+    urlPayment: 'https://integracion-nodejs-mercado-pago.onrender.com/pay'
   };

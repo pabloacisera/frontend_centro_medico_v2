@@ -12,6 +12,7 @@ export class DashboardPacienteService {
   url= environment.urlUsuario
   indUrl = environment.urlIndicaciones
   resultadoUrl = environment.urlResultado
+  paymentUrl = environment.urlPayment
 
   async obtenerUsuarioById(userId:number){
     try {
@@ -43,4 +44,8 @@ export class DashboardPacienteService {
     }
   }
 
+
+  async createPaymentPreferences(){
+    return axios.post(`${this.paymentUrl}/create_preferences`)
+  }
 }

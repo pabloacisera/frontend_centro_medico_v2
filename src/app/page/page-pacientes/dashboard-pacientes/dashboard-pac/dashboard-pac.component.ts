@@ -133,6 +133,19 @@ export class DashboardPacComponent implements OnInit {
     }
   }
 
+  iniciarPago(){
+    this.service.createPaymentPreferences()
+      .then((response: any) => {
+        console.log(response.data)
+        if(response.data.result && response.data.result.init_point){
+          window.location.href = response.data.result.init_point;
+        }
+      })
+      .catch((error: any)=> {
+        console.error('Error al crear la preferencia de pago: ', error)
+      })
+  }
+
   salir(){
     localStorage.removeItem('userData')
     localStorage.removeItem('token')

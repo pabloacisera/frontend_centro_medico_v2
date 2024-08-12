@@ -1,0 +1,7 @@
+{
+    "/pay": {
+        "target": "https://integracion-nodejs-mercado-pago.onrender.com",
+        "secure": true,
+        "changeOrigin": true
+    }
+}
