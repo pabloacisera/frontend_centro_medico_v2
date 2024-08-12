@@ -11,5 +11,6 @@ export const environment = {
   urlTurnos: 'https://backend-centro-medico-4.onrender.com/api/v2/sist-turnos',
   mailServiceUrl: 'https://backend-centro-medico-4.onrender.com/api/v2/mail',
   urlAutenticacionPaciente : 'https://backend-centro-medico-4.onrender.com/api/v2/autenticacion-paciente',
-  urlFile: 'https://backend-centro-medico-4.onrender.com/api/v2/upload-file'
+  urlFile: 'https://backend-centro-medico-4.onrender.com/api/v2/upload-file',
+  urlPayment: 'https://integracion-nodejs-mercado-pago.onrender.com/pay'
 };
